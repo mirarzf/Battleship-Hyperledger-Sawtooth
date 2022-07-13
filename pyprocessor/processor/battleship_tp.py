@@ -30,6 +30,7 @@ from processor.battleship_state import Game, BattleshipState
 LOGGER = logging.getLogger(__name__)
 ID_BOAT = ['A', 'B', 'C', 'D', 'E']
 BOAT_CASES = [[5, 4, 3, 3, 2],[5, 4, 3, 3, 2]]
+TO_PLACE = [[1, 1, 1, 1, 1], [1, 1, 1, 1, 1]]
 
 FAMILY_NAME = "battleship"
 
@@ -250,6 +251,10 @@ def place(board, col, row, state, boat_ID, direction):
 def _update_game_state(game_state):
     P1_wins = _is_win(0)
     P2_wins = _is_win(1)
+    start_game = _boats_placed()
+
+    if start_game:
+        return 'P1-NEXT'
 
     if P1_wins and P2_wins:
         raise InternalError('Two winners (there can be only one)')
@@ -270,6 +275,14 @@ def _update_game_state(game_state):
         return game_state
 
     raise InternalError('Unhandled state: {}'.format(game_state))
+
+def _boats_placed():
+    res = 0
+    for k in TO_PLACE :
+        res += k
+    if res > 0 :
+        return False
+    return True
 
 def _is_win(id):
     for k in BOAT_CASES[id]:
