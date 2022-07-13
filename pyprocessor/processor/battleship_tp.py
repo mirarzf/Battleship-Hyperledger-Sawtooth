@@ -98,7 +98,6 @@ class BattleshipTransactionHandler(TransactionHandler):
                     'Invalid action: Game already exists: {}'.format(
                         battleship_payload.name))
 
-            print("omg you just created a game but I'm not sure honestly")
             ## ADAPT board shape //!\\
             game = Game(name=battleship_payload.name,
                         board_P1="-" * 100,
