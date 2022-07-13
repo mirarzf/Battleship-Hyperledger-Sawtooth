@@ -390,13 +390,13 @@ def do_list(args):
     ]
 
     if game_list is not None:
-        fmt = "%-15s %-15.15s %-15.15s %-9s %s"
-        print(fmt % ('GAME', 'PLAYER 1', 'PLAYER 2', 'BOARD', 'STATE'))
+        fmt = "%-15s %-15.15s %-15.15s %s"
+        print(fmt % ('GAME', 'PLAYER 1', 'PLAYER 2', 'STATE'))
         for game_data in game_list:
 
-            name, board, game_state, player1, player2 = game_data
+            name, board_P1, board_P2, game_state, player1, player2 = game_data
 
-            print(fmt % (name, player1[:6], player2[:6], board, game_state))
+            print(fmt % (name, player1[:6], player2[:6], game_state))
     else:
         raise BaseException("Could not retrieve game listing.")
 
