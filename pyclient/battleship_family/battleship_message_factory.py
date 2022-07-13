@@ -62,13 +62,13 @@ class BattleshipMessageFactory(object):
 
     ## Adapt to board def /!\
     def create_set_request(
-        self, game, board="---------", state="P1-NEXT", player1="", player2=""
+        self, game, board_P1="---------------------------------------------------------------------------------------------------", board_P2="---------------------------------------------------------------------------------------------------", state="P1-NEXT", player1="", player2=""
     ):
         address = self._game_to_address(game)
 
         data = None
         if state is not None:
-            data = ",".join([game, board, state, player1, player2]).encode()
+            data = ",".join([game, board_P1, board_P2, state, player1, player2]).encode()
         else:
             data = None
 
@@ -76,13 +76,13 @@ class BattleshipMessageFactory(object):
 
     ## Adapt to board def /!\
     def create_get_response(
-        self, game, board="---------", state="P1-NEXT", player1="", player2=""
+        self, game, board_P1="---------------------------------------------------------------------------------------------------", board_P2="---------------------------------------------------------------------------------------------------", state="P1-NEXT", player1="", player2=""
     ):
         address = self._game_to_address(game)
 
         data = None
-        if board is not None:
-            data = ",".join([game, board, state, player1, player2]).encode()
+        if board_P1 is not None and board_P2 is not None:
+            data = ",".join([game, board_P1, board_P2, state, player1, player2]).encode()
         else:
             data = None
 
