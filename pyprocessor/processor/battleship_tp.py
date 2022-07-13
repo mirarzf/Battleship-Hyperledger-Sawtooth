@@ -85,7 +85,6 @@ class BattleshipTransactionHandler(TransactionHandler):
         if battleship_payload.action == 'delete':
             game = battleship_state.get_game(battleship_payload.name)
 
-            print("this game is deleted or noooooot")
             if game is None:
                 raise InvalidTransaction(
                     'Invalid action: game does not exist')

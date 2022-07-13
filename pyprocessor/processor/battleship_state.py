@@ -47,13 +47,11 @@ class BattleshipState:
         """
 
         games = self._load_games(game_name=game_name)
-        print("just loaded the game before DESTRUCTION")
+        
         del games[game_name]
         if games:
-            print("if games")
             self._store_game(game_name, games=games)
         else:
-            print("else pas games I guess")
             self._delete_game(game_name)
 
     def set_game(self, game_name, game):
