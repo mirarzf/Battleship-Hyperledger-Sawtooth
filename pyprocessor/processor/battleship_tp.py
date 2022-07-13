@@ -127,6 +127,9 @@ class BattleshipTransactionHandler(TransactionHandler):
             if game.state in ('P1-WIN', 'P2-WIN'):
                 raise InvalidTransaction('Invalid Action: Game has ended')
 
+            if game.state == 'PLACE':
+                raise InvalidTransaction('Invalid Action : Game has not started, ships are still being placed')
+
             if (game.player1 and game.state == 'P1-NEXT'
                 and game.player1 != signer) or \
                     (game.player2 and game.state == 'P2-NEXT'
@@ -149,7 +152,21 @@ class BattleshipTransactionHandler(TransactionHandler):
                 elif game.player2 == '':
                     game.player2 = signer
 
-def _update_board(board, space, state):
+def _update_board(board, col, row, state):
+    # Conversion of the COL ROW format to INT of the space 
+    rownames = {
+        "A": 0, 
+        "B": 1, 
+        "C": 2, 
+        "D": 3, 
+        "E": 4, 
+        "F": 5, 
+        "G": 6, 
+        "H": 7, 
+        "I": 8, 
+        "J": 9, 
+    }
+    space = rownames[row]*10 + col
     index = space - 1
     if board[index] == '-':
         print('MISS')
@@ -168,9 +185,66 @@ def _update_board(board, space, state):
         # Update boat cases left status for hit or sunk boat
         BOAT_CASES[id][ID_BOAT.index(board[index])] -= 1
 
+    elif state == 'PLACE' :
+        mark = board[index]
+
     # replace the index-th space with mark, leave everything else the same
     return ''.join([
         current if square != index else mark
+        for square, current in enumerate(board)
+    ])
+
+def place(board, col, row, state, boat_ID, direction):
+    # Conversion of the COL ROW format to INT of the space 
+    rownames = {
+        "A": 0, 
+        "B": 1, 
+        "C": 2, 
+        "D": 3, 
+        "E": 4, 
+        "F": 5, 
+        "G": 6, 
+        "H": 7, 
+        "I": 8, 
+        "J": 9, 
+    }
+    space = rownames[row]*10 + col
+    index = space - 1
+    if state != 'PLACE':
+        raise InvalidTransaction('Invalid Action: Game has started, all the ships have been placed')
+    mark = boat_ID
+
+    boat_length = BOAT_CASES[id][ID_BOAT.index(board[index])]
+
+    if direction == 'vertical':
+        x = 0
+        y = 1
+        if index + boat_length*10 > 100 :
+            raise InvalidTransaction('Invalid Action: Your boat is outside the board on the bottom')
+    else :
+        x = 1
+        y = 0
+        if index + boat_length > 9:
+            raise InvalidTransaction('Invalid Action: Your boat is outside the board on the right')
+    
+    index_list = []
+    for k in range(boat_length):
+        index_list.append(index + k*x + k*y*10)
+        mark = boat_ID
+
+    path = []
+    for square, current in enumerate(board) :
+        for i in index_list :
+            if square == i :
+                path.append(current)
+    
+    for k in ID_BOAT :
+        if k in path :
+            raise InvalidTransaction('Invalid Action: Your boat is overlapping with another')
+
+    # replace the i-th space with mark and all the cases that are in the specified direction
+    return ''.join([
+        current if square not in index_list else mark
         for square, current in enumerate(board)
     ])
 
