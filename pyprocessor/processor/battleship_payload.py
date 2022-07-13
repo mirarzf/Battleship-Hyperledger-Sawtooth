@@ -19,7 +19,7 @@ class BattleshipPayload:
         if not action:
             raise InvalidTransaction('Action is required')
 
-        if action not in ('create', 'shoot', 'delete'):
+        if action not in ('place', 'create', 'shoot', 'delete'):
             raise InvalidTransaction('Invalid action: {}'.format(action))
 
         if action == 'shoot':
