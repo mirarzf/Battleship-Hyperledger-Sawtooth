@@ -84,6 +84,7 @@ class BattleshipTransactionHandler(TransactionHandler):
         if battleship_payload.action == 'delete':
             game = battleship_state.get_game(battleship_payload.name)
 
+            print("this game is deleted or noooooot")
             if game is None:
                 raise InvalidTransaction(
                     'Invalid action: game does not exist')
@@ -97,6 +98,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                     'Invalid action: Game already exists: {}'.format(
                         battleship_payload.name))
 
+            print("omg you just created a game but I'm not sure honestly")
             ## ADAPT board shape //!\\
             game = Game(name=battleship_payload.name,
                         board_P1="-" * 100,

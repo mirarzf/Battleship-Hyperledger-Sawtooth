@@ -62,6 +62,7 @@ class BattleshipState:
             game (Game): The information specifying the current game.
         """
 
+        print("yappari set that game yeah yeah")
         games = self._load_games(game_name=game_name)
 
         games[game_name] = game
@@ -77,7 +78,8 @@ class BattleshipState:
         Returns:
             (Game): All the information specifying a game.
         """
-
+        
+        print("get that game baby")
         return self._load_games(game_name=game_name).get(game_name)
 
     def _store_game(self, game_name, games):
@@ -160,7 +162,7 @@ class BattleshipState:
         game_strs = []
         for name, g in games.items():
             game_str = ",".join(
-                [name, g.board, g.state, g.player1, g.player2])
+                [name, g.board_P1, g.board_P2, g.state, g.player1, g.player2])
             game_strs.append(game_str)
 
         return "|".join(sorted(game_strs)).encode()
