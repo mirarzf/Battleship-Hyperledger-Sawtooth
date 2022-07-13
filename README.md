@@ -8,8 +8,6 @@ This repository is based upon the python processor and client of the simplewalle
 ## Pre-requisites 
 This repo uses Docker and the usage mostly works like the Hyperledger Sawtooth tutorial [Setting Up a Sawtooth Node for Testing](https://sawtooth.hyperledger.org/docs/1.2/app_developers_guide/installing_sawtooth.html). 
 
-***
-
 ## Start using Battleship transaction family 
 
 Start by building the containers. 
