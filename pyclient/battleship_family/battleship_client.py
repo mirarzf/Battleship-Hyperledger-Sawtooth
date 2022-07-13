@@ -18,6 +18,8 @@ This SimpleWalletClient class interfaces with Sawtooth through the REST API.
 
 import hashlib
 import base64
+from base64 import b64encode
+import time 
 import random
 import requests
 import yaml
@@ -255,7 +257,7 @@ class BattleshipClient(object):
                 auth_password=auth_password)
             return yaml.safe_load(result)['data'][0]['status']
         except BaseException as err:
-            raise BattleshipException(err) from err
+            raise Exception(err) from err
 
     def _get_prefix(self):
         return _hash('battleship'.encode('utf-8'))[0:6]
@@ -272,12 +274,15 @@ class BattleshipClient(object):
                       name=None,
                       auth_user=None,
                       auth_password=None):
-        if self._base_url.startswith("http://"):
-            url = "{}/{}".format(self._base_url, suffix)
+        '''Send a REST command to the Validator via the REST API.'''
+
+        if self._baseUrl.startswith("http://"):
+            url = "{}/{}".format(self._baseUrl, suffix)
         else:
-            url = "http://{}/{}".format(self._base_url, suffix)
+            url = "http://{}/{}".format(self._baseUrl, suffix)
 
         headers = {}
+
         if auth_user is not None:
             auth_string = "{}:{}".format(auth_user, auth_password)
             b64_string = b64encode(auth_string.encode()).decode()
@@ -294,18 +299,18 @@ class BattleshipClient(object):
                 result = requests.get(url, headers=headers)
 
             if result.status_code == 404:
-                raise BattleshipException("No such game: {}".format(name))
+                raise Exception("No such game: {}".format(name))
 
             if not result.ok:
-                raise BattleshipException("Error {}: {}".format(
+                raise Exception("Error {}: {}".format(
                     result.status_code, result.reason))
 
         except requests.ConnectionError as err:
-            raise BattleshipException(
+            raise Exception(
                 'Failed to connect to {}: {}'.format(url, str(err))) from err
 
         except BaseException as err:
-            raise BattleshipException(err) from err
+            raise Exception(err) 
 
         return result.text
 
@@ -319,30 +324,45 @@ class BattleshipClient(object):
         # Serialization is just a delimited utf-8 encoded string
         payload = ",".join([name, action, str(space)]).encode()
 
-        # Construct the address
+        # Construct the address where we'll store our state 
         address = self._get_address(name)
 
+        # Create a TransactionHeader 
         header = TransactionHeader(
-            signer_public_key=self._signer.get_public_key().as_hex(),
+            signer_public_key=self._publicKey,
             family_name="battleship",
             family_version="1.0",
             inputs=[address],
             outputs=[address],
             dependencies=[],
             payload_sha512=_hash(payload),
-            batcher_public_key=self._signer.get_public_key().as_hex(),
+            batcher_public_key=self._publicKey,
             nonce=hex(random.randint(0, 2**64))
         ).SerializeToString()
 
-        signature = self._signer.sign(header)
-
+        # Create a Transaction from the header and payload above 
         transaction = Transaction(
             header=header,
             payload=payload,
-            header_signature=signature
+            header_signature=self._signer.sign(header)
         )
 
-        batch_list = self._create_batch_list([transaction])
+        transactionList = [transaction]
+
+        # Create a BatchHeader from transactionList above
+        header = BatchHeader(
+            signer_public_key=self._publicKey, 
+            transaction_ids=[txn.header_signature for txn in transactionList]
+        ).SerializeToString()
+ 
+        # Create Batch using the BatchHeader and transactionList above 
+        batch = Batch(
+            header=header,
+            transactions=transactionList,
+            header_signature=self._signer.sign(header))
+
+        # Create a Batch List from Batch above 
+        batch_list = BatchList(batches=[batch])
         batch_id = batch_list.batches[0].header_signature
 
         if wait and wait > 0:
@@ -371,19 +391,3 @@ class BattleshipClient(object):
             'application/octet-stream',
             auth_user=auth_user,
             auth_password=auth_password)
-
-    def _create_batch_list(self, transactions):
-        transaction_signatures = [t.header_signature for t in transactions]
-
-        header = BatchHeader(
-            signer_public_key=self._signer.get_public_key().as_hex(),
-            transaction_ids=transaction_signatures
-        ).SerializeToString()
-
-        signature = self._signer.sign(header)
-
-        batch = Batch(
-            header=header,
-            transactions=transactions,
-            header_signature=signature)
-        return BatchList(batches=[batch])

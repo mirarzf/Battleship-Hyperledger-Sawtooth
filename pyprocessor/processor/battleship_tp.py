@@ -31,7 +31,6 @@ LOGGER = logging.getLogger(__name__)
 ID_BOAT = ['A', 'B', 'C', 'D', 'E']
 BOAT_CASES = [[5, 4, 3, 3, 2],[5, 4, 3, 3, 2]]
 
-
 FAMILY_NAME = "battleship"
 
 def _hash(data):
@@ -73,18 +72,15 @@ class BattleshipTransactionHandler(TransactionHandler):
         
         # Get the payload and extract battleship-specific information.
         header = transaction.header
+
         # Get the public key sent from the client.
         signer = header.signer_public_key
         
-        # payload_list = transaction.payload.decode().split(",")
-        # operation = payload_list[0]
-        # amount = payload_list[1]
-        
         battleship_payload = BattleshipPayload.from_bytes(transaction.payload)
-
+        
         battleship_state = BattleshipState(context)
 
-        
+        # Perform the command 
         if battleship_payload.action == 'delete':
             game = battleship_state.get_game(battleship_payload.name)
 
@@ -151,60 +147,6 @@ class BattleshipTransactionHandler(TransactionHandler):
 
                 elif game.player2 == '':
                     game.player2 = signer
-
-                upd_board = _update_board(game.board_P2,
-                                        battleship_payload.space,
-                                        game.state)
-
-                upd_game_state = _update_game_state(game.state)
-
-                game.board_P2 = upd_board
-                game.state = upd_game_state
-
-            if game.state == "P2-NEXT":
-
-                if game.board_P1[battleship_payload.space - 1] == 'X' or game.board_P1[battleship_payload.space - 1] == 'O':
-                    raise InvalidTransaction(
-                        'Invalid Action: space {} already attacked'.format(
-                            battleship_payload))
-                else :
-                    print("HIT/SUNK/MISS")   #TBD add X to the board
-
-                if game.player1 == '':
-                    game.player1 = signer
-
-                elif game.player2 == '':
-                    game.player2 = signer
-
-                upd_board = _update_board(game.board_P1,
-                                        battleship_payload.space,
-                                        game.state)
-
-                upd_game_state = _update_game_state(game.state)
-
-                game.board_P1 = upd_board
-                game.state = upd_game_state
-
-
-            battleship_state.set_game(battleship_payload.name, game)
-            _display(
-                "Player {} attacks space: {}\n\n".format(
-                    signer[:6],
-                    battleship_payload.space)
-                + _game_data_to_str(
-                    game.board_P1,
-                    game.board_P2,
-                    game.state,
-                    game.player1,
-                    game.player2,
-                    battleship_payload.name))
-
-        else:
-            raise InvalidTransaction('Unhandled action: {}'.format(
-                battleship_payload.action))
-   
-    # def _get_wallet_address(self, from_key):
-    #     return _hash(FAMILY_NAME.encode('utf-8'))[0:6] + _hash(from_key.encode('utf-8'))[0:64]
 
 def _update_board(board, space, state):
     index = space - 1
@@ -315,7 +257,7 @@ def setup_loggers():
     logging.getLogger().setLevel(logging.DEBUG)
 
 def main():
-    '''Entry-point function for the simplewallet transaction processor.'''
+    '''Entry-point function for the battleship transaction processor.'''
     setup_loggers()
     try:
         # Register the transaction handler and start it.
@@ -334,4 +276,3 @@ def main():
     except BaseException as err:
         traceback.print_exc(file=sys.stderr)
         sys.exit(1)
-
