@@ -279,10 +279,17 @@ def _update_game_state(game_state):
     raise InternalError('Unhandled state: {}'.format(game_state))
 
 def _boats_placed():
-    res = 0
-    for k in TO_PLACE :
-        res += k
-    if res > 0 :
+    res1 = 0
+    res2 = 0
+    for k in TO_PLACE[0] :
+        res1 += k
+    for k in TO_PLACE[1] :
+        res2 += k
+    if res1 > 0 :
+        print('Player1 has not finished placing boats')
+        return False
+    elif res2 > 0 :
+        print('Player2 has not finished placing boats')
         return False
     return True
 
@@ -292,7 +299,7 @@ def _is_win(id):
             return False
     return True
 
-## MODIFY BOARD LAYOUT /!\
+## MODIFY BOARD LAYOUT ? /!\
 def _game_data_to_str(board, game_state, player1, player2, name):
     board = list(board.replace("-", " "))
     out = ""
