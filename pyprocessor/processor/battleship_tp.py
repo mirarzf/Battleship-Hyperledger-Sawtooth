@@ -102,7 +102,7 @@ class BattleshipTransactionHandler(TransactionHandler):
             game = Game(name=battleship_payload.name,
                         board_P1="-" * 100,
                         board_P2="-" * 100,
-                        state="P1-NEXT",
+                        state="PLACE",
                         player1="",
                         player2="")
 

@@ -426,7 +426,6 @@ def do_show(args):
 
         ## ERROR IN TEST only works when you can only display when it's your turn
         
-        # if game_state == 'P1-NEXT': #P1-NEXT = P1 turn 
         currentplayer = args.username 
         if currentplayer == player1: 
             board_enemy = display_enemy(board_P2)

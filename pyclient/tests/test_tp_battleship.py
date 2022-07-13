@@ -69,7 +69,7 @@ class TestBattleship(TransactionProcessorTestCase):
 
         self.expect_set_request(
             game='create-game',
-            board='---------',
+            board='---------------------------------------------------------------------------------------------------',
             state='P1-NEXT',
             player_1='',
             player_2='')
@@ -79,7 +79,7 @@ class TestBattleship(TransactionProcessorTestCase):
 
         self.send_get_response(
             game='already-created',
-            board='---------')
+            board='---------------------------------------------------------------------------------------------------')
 
         self.expect_invalid()
 
