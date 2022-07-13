@@ -297,7 +297,7 @@ def _is_win(id):
             return False
     return True
 
-## MODIFY BOARD LAYOUT /!\
+## MODIFY BOARD LAYOUT ? /!\
 def _game_data_to_str(board, game_state, player1, player2, name):
     board = list(board.replace("-", " "))
     out = ""
