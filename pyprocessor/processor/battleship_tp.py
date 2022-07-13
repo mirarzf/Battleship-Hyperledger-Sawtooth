@@ -168,25 +168,27 @@ def _update_board(board, col, row, state):
     }
     space = rownames[row]*10 + col
     index = space - 1
-    if board[index] == '-':
-        print('MISS')
-        mark = 'X'
-    elif board[index] in ID_BOAT:
-        mark = 'O'
-        if state == 'P1-NEXT' :
-            id = 1
-        else :
-            id = 0
-        if BOAT_CASES[id][ID_BOAT.index(board[index])] == 1:
-            print('SUNK')
-        else :
-            print('HIT')
 
-        # Update boat cases left status for hit or sunk boat
-        BOAT_CASES[id][ID_BOAT.index(board[index])] -= 1
-
-    elif state == 'PLACE' :
+    if state == 'PLACE' :
         mark = board[index]
+        
+    else: 
+        if board[index] == '-':
+            print('MISS')
+            mark = 'X'
+        elif board[index] in ID_BOAT:
+            mark = 'O'
+            if state == 'P1-NEXT' :
+                id = 1
+            else :
+                id = 0
+            if BOAT_CASES[id][ID_BOAT.index(board[index])] == 1:
+                print('SUNK')
+            else :
+                print('HIT')
+
+            # Update boat cases left status for hit or sunk boat
+            BOAT_CASES[id][ID_BOAT.index(board[index])] -= 1
 
     # replace the index-th space with mark, leave everything else the same
     return ''.join([
