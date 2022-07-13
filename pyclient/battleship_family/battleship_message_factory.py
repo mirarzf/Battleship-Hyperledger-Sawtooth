@@ -81,7 +81,7 @@ class BattleshipMessageFactory(object):
         address = self._game_to_address(game)
 
         data = None
-        if board_P1 is not None:
+        if board_P1 is not None and board_P2 is not None:
             data = ",".join([game, board_P1, board_P2, state, player1, player2]).encode()
         else:
             data = None
