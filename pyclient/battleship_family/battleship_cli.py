@@ -166,14 +166,14 @@ def add_show_parser(subparsers, parent_parser):
         help='identifier for the game')
 
     parser.add_argument(
+        'username',
+        type=str,
+        help="identify name of user's private key file")
+
+    parser.add_argument(
         '--url',
         type=str,
         help='specify URL of REST API')
-
-    parser.add_argument(
-        '--username',
-        type=str,
-        help="identify name of user's private key file")
 
     parser.add_argument(
         '--key-dir',
@@ -431,71 +431,81 @@ def do_show(args):
         if currentplayer == player1: 
             board_enemy = display_enemy(board_P2)
             board_perso = board_P1
+            display_both_boards(name, player1, player2, game_state, board_perso, board_enemy)
         elif currentplayer == player2: 
             board_enemy = display_enemy(board_P1)
             board_perso = board_P2
+            display_both_boards(name, player1, player2, game_state, board_perso, board_enemy)
         else: 
-            print("This player doesn't exist in this game. ")
-
-
-        print("GAME:     : {}".format(name))
-        print("PLAYER 1  : {}".format(player1[:6]))
-        print("PLAYER 2  : {}".format(player2[:6]))
-        print("STATE     : {}".format(game_state))
-        print("Enemy board")
-        print("")
-        print("   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 ")
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" A | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[0], board_enemy[1], board_enemy[2], board_enemy[3], board_enemy[4], board_enemy[5], board_enemy[6], board_enemy[7], board_enemy[8], board_enemy[9]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" B | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[10], board_enemy[11], board_enemy[12], board_enemy[13], board_enemy[14], board_enemy[15], board_enemy[16], board_enemy[17], board_enemy[18], board_enemy[19]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" C | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[20], board_enemy[21], board_enemy[22], board_enemy[23], board_enemy[24], board_enemy[25], board_enemy[26], board_enemy[27], board_enemy[28], board_enemy[29]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" D | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[30], board_enemy[31], board_enemy[32], board_enemy[33], board_enemy[34], board_enemy[35], board_enemy[36], board_enemy[37], board_enemy[38], board_enemy[39]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" E | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[40], board_enemy[41], board_enemy[42], board_enemy[43], board_enemy[44], board_enemy[45], board_enemy[46], board_enemy[47], board_enemy[48], board_enemy[49]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" F | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[50], board_enemy[51], board_enemy[52], board_enemy[53], board_enemy[54], board_enemy[55], board_enemy[56], board_enemy[57], board_enemy[58], board_enemy[59]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" G | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[60], board_enemy[61], board_enemy[62], board_enemy[63], board_enemy[64], board_enemy[65], board_enemy[66], board_enemy[67], board_enemy[68], board_enemy[69]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" H | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[70], board_enemy[71], board_enemy[72], board_enemy[73], board_enemy[74], board_enemy[75], board_enemy[76], board_enemy[77], board_enemy[78], board_enemy[79]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" I | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[80], board_enemy[81], board_enemy[82], board_enemy[83], board_enemy[84], board_enemy[85], board_enemy[86], board_enemy[87], board_enemy[88], board_enemy[89]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" J | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[90], board_enemy[91], board_enemy[92], board_enemy[93], board_enemy[94], board_enemy[95], board_enemy[96], board_enemy[97], board_enemy[98], board_enemy[99]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print("")
-        print("Your board")
-        print("   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 ")
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" A | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_perso[0], board_perso[1], board_perso[2], board_perso[3], board_perso[4], board_perso[5], board_perso[6], board_perso[7], board_perso[8], board_perso[9]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" B | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_perso[10], board_perso[11], board_perso[12], board_perso[13], board_perso[14], board_perso[15], board_perso[16], board_perso[17], board_perso[18], board_perso[19]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" C | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_perso[20], board_perso[21], board_perso[22], board_perso[23], board_perso[24], board_perso[25], board_perso[26], board_perso[27], board_perso[28], board_perso[29]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" D | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_perso[30], board_perso[31], board_perso[32], board_perso[33], board_perso[34], board_perso[35], board_perso[36], board_perso[37], board_perso[38], board_perso[39]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" E | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_perso[40], board_perso[41], board_perso[42], board_perso[43], board_perso[44], board_perso[45], board_perso[46], board_perso[47], board_perso[48], board_perso[49]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" F | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_perso[50], board_perso[51], board_perso[52], board_perso[53], board_perso[54], board_perso[55], board_perso[56], board_perso[57], board_perso[58], board_perso[59]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" G | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_perso[60], board_perso[61], board_perso[62], board_perso[63], board_perso[64], board_perso[65], board_perso[66], board_perso[67], board_perso[68], board_perso[69]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" H | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_perso[70], board_perso[71], board_perso[72], board_perso[73], board_perso[74], board_perso[75], board_perso[76], board_perso[77], board_perso[78], board_perso[79]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" I | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_perso[80], board_perso[81], board_perso[82], board_perso[83], board_perso[84], board_perso[85], board_perso[86], board_perso[87], board_perso[88], board_perso[89]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print(" J | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_perso[90], board_perso[91], board_perso[92], board_perso[93], board_perso[94], board_perso[95], board_perso[96], board_perso[97], board_perso[98], board_perso[99]))
-        print("---|---|---|---|---|---|---|---|---|---|---")
-        print("")
+            raise Exception("Player {} doesn't exist in the game {}".format(currentplayer, name))
 
     else:
         raise Exception("Game not found: {}".format(name))
 
+def display_both_boards(name, player1, player2, game_state, board_current_player, board_enemy): 
+    '''
+    Function permitting to print the boards. Utility for show command. 
+    '''
+    
+    print("GAME:     : {}".format(name))
+    print("PLAYER 1  : {}".format(player1[:6]))
+    print("PLAYER 2  : {}".format(player2[:6]))
+    print("STATE     : {}".format(game_state))
+    print("Enemy board")
+    print("")
+    print("   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 ")
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" A | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[0], board_enemy[1], board_enemy[2], board_enemy[3], board_enemy[4], board_enemy[5], board_enemy[6], board_enemy[7], board_enemy[8], board_enemy[9]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" B | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[10], board_enemy[11], board_enemy[12], board_enemy[13], board_enemy[14], board_enemy[15], board_enemy[16], board_enemy[17], board_enemy[18], board_enemy[19]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" C | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[20], board_enemy[21], board_enemy[22], board_enemy[23], board_enemy[24], board_enemy[25], board_enemy[26], board_enemy[27], board_enemy[28], board_enemy[29]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" D | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[30], board_enemy[31], board_enemy[32], board_enemy[33], board_enemy[34], board_enemy[35], board_enemy[36], board_enemy[37], board_enemy[38], board_enemy[39]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" E | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[40], board_enemy[41], board_enemy[42], board_enemy[43], board_enemy[44], board_enemy[45], board_enemy[46], board_enemy[47], board_enemy[48], board_enemy[49]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" F | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[50], board_enemy[51], board_enemy[52], board_enemy[53], board_enemy[54], board_enemy[55], board_enemy[56], board_enemy[57], board_enemy[58], board_enemy[59]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" G | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[60], board_enemy[61], board_enemy[62], board_enemy[63], board_enemy[64], board_enemy[65], board_enemy[66], board_enemy[67], board_enemy[68], board_enemy[69]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" H | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[70], board_enemy[71], board_enemy[72], board_enemy[73], board_enemy[74], board_enemy[75], board_enemy[76], board_enemy[77], board_enemy[78], board_enemy[79]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" I | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[80], board_enemy[81], board_enemy[82], board_enemy[83], board_enemy[84], board_enemy[85], board_enemy[86], board_enemy[87], board_enemy[88], board_enemy[89]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" J | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_enemy[90], board_enemy[91], board_enemy[92], board_enemy[93], board_enemy[94], board_enemy[95], board_enemy[96], board_enemy[97], board_enemy[98], board_enemy[99]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print("")
+    print("Your board")
+    print("   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 ")
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" A | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_current_player[0], board_current_player[1], board_current_player[2], board_current_player[3], board_current_player[4], board_current_player[5], board_current_player[6], board_current_player[7], board_current_player[8], board_current_player[9]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" B | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_current_player[10], board_current_player[11], board_current_player[12], board_current_player[13], board_current_player[14], board_current_player[15], board_current_player[16], board_current_player[17], board_current_player[18], board_current_player[19]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" C | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_current_player[20], board_current_player[21], board_current_player[22], board_current_player[23], board_current_player[24], board_current_player[25], board_current_player[26], board_current_player[27], board_current_player[28], board_current_player[29]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" D | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_current_player[30], board_current_player[31], board_current_player[32], board_current_player[33], board_current_player[34], board_current_player[35], board_current_player[36], board_current_player[37], board_current_player[38], board_current_player[39]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" E | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_current_player[40], board_current_player[41], board_current_player[42], board_current_player[43], board_current_player[44], board_current_player[45], board_current_player[46], board_current_player[47], board_current_player[48], board_current_player[49]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" F | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_current_player[50], board_current_player[51], board_current_player[52], board_current_player[53], board_current_player[54], board_current_player[55], board_current_player[56], board_current_player[57], board_current_player[58], board_current_player[59]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" G | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_current_player[60], board_current_player[61], board_current_player[62], board_current_player[63], board_current_player[64], board_current_player[65], board_current_player[66], board_current_player[67], board_current_player[68], board_current_player[69]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" H | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_current_player[70], board_current_player[71], board_current_player[72], board_current_player[73], board_current_player[74], board_current_player[75], board_current_player[76], board_current_player[77], board_current_player[78], board_current_player[79]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" I | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_current_player[80], board_current_player[81], board_current_player[82], board_current_player[83], board_current_player[84], board_current_player[85], board_current_player[86], board_current_player[87], board_current_player[88], board_current_player[89]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print(" J | {} | {} | {} | {} | {} | {} | {} | {} | {} | {}".format(board_current_player[90], board_current_player[91], board_current_player[92], board_current_player[93], board_current_player[94], board_current_player[95], board_current_player[96], board_current_player[97], board_current_player[98], board_current_player[99]))
+    print("---|---|---|---|---|---|---|---|---|---|---")
+    print("")
+
 def display_enemy(board):
+    ''' 
+    This returns a board that shows where the 
+    current player has shot on their enemy board. 
+    '''
     board_disp = []
     for k in board :
         if k in ID_BOAT :
