@@ -516,6 +516,9 @@ def display_enemy(board):
 
 
 def do_create(args):
+    '''
+    This creates a new game
+    '''
     name = args.name
 
     url = _get_url(args)
@@ -538,6 +541,9 @@ def do_create(args):
 
 
 def do_shoot(args):
+    '''
+    Give the name of the game, the column and the row, this shoots on the enemy board at the given spot
+    '''
     name = args.name
     column = args.col
     row = args.row 
