@@ -8,6 +8,10 @@ This repository is based upon the python processor and client of the simplewalle
 ## Pre-requisites 
 This repo uses Docker and the usage mostly works like the Hyperledger Sawtooth tutorial [Setting Up a Sawtooth Node for Testing](https://sawtooth.hyperledger.org/docs/1.2/app_developers_guide/installing_sawtooth.html). 
 
+***
+
+## Start using Battleship transaction family 
+
 Start by building the containers. 
 ```
 docker-compose up --build 
@@ -25,3 +29,12 @@ docker exec -it battleship-client bash
 There are a few commands available for the battleship: create, place (not yet), list, show, shoot. 
 
 list works and so does show. But not create. Place has to be created before we can start testing shoot. 
+
+## Stop using 
+Don't forget to quit properly the client with exit. 
+
+On the host shell, do CTRL+C then the following command: 
+```
+docker-compose down 
+``` 
+This will stop the usage of the containers. 
