@@ -11,14 +11,14 @@ This repo uses Docker and the usage mostly works like the Hyperledger Sawtooth t
 Start by building the containers. 
 ```
 docker-compose up --build 
-'''
+```
 
 If you add changes to the python code, don't forget to rebuild the containers. If you didn't add any change, you can forget the --build. 
 
 Then, to open the client just do the following command: 
 ```
 docker exec -it battleship-client bash
-''' 
+```
 
 ## Battleship commands 
 
