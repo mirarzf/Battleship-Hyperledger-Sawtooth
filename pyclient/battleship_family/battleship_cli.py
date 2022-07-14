@@ -31,7 +31,7 @@ from colorlog import ColoredFormatter
 
 
 from battleship_family.battleship_client import BattleshipClient
-ID_BOAT = ['A', 'B', 'C', 'D', 'E']
+ID_BOAT = ['Z', 'Y', 'X', 'W', 'V']
 
 DISTRIBUTION_NAME = 'battleship'
 
@@ -482,6 +482,10 @@ def do_list(args):
 
 
 def do_show(args):
+    '''
+    This shows the boards of a game. When it is you turn, it displays your own board with where your enemy 
+    has shot and the enemy board (with no boats) whith the shots you made
+    '''
     name = args.name
 
     url = _get_url(args)
@@ -621,7 +625,9 @@ def do_create(args):
 
 def do_shoot(args):
     '''
-    Give the name of the game, the column and the row, this shoots on the enemy board at the given spot
+    Given the name of the game, the row and the column, this shoots on the enemy board at the given spot
+    row is a character A-J
+    col is an int 1-10 
     '''
     name = args.name
     column = args.col
@@ -706,6 +712,9 @@ def do_place(args):
 
 
 def do_delete(args):
+    '''
+    This deletes the game that has the name you give as argument
+    '''
     name = args.name
 
     url = _get_url(args)

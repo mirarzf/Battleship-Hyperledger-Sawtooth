@@ -28,7 +28,7 @@ from processor.battleship_payload import BattleshipPayload
 from processor.battleship_state import Game, BattleshipState
 
 LOGGER = logging.getLogger(__name__)
-ID_BOAT = ['A', 'B', 'C', 'D', 'E']
+ID_BOAT = ['Z', 'Y', 'X', 'W', 'V']
 BOAT_CASES = [[5, 4, 3, 3, 2],[5, 4, 3, 3, 2]]
 TO_PLACE = [[1, 1, 1, 1, 1], [1, 1, 1, 1, 1]]
 
