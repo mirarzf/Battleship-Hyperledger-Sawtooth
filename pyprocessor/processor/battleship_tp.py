@@ -144,7 +144,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                         "Invalid action: this player doesn't exist")
                 else: 
                     raise InvalidTransaction(
-                        "Invalid action: this player {} doesn't exist".format(signer))
+                        "Invalid action: this player {} doesn't exist".format(game.player1))
 
                 upd_board = _place(boardtoupdate,
                                     battleship_payload.space,
