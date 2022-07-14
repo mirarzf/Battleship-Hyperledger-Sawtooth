@@ -98,7 +98,6 @@ class BattleshipTransactionHandler(TransactionHandler):
                     'Invalid action: Game already exists: {}'.format(
                         battleship_payload.name))
 
-            ## ADAPT board shape //!\\
             game = Game(name=battleship_payload.name,
                         board_P1="-" * 100,
                         board_P2="-" * 100,
@@ -112,9 +111,24 @@ class BattleshipTransactionHandler(TransactionHandler):
         elif battleship_payload.action == 'show': 
             game = battleship_state.get_game(battleship_payload.name)
 
+            if game is None:
+                raise InvalidTransaction(
+                    'Invalid action: show requires an existing game')
+
             if game.player1 == '' or game.player2 == '':
                 raise InvalidTransaction(
                     'Invalid action: show requires two existing players')
+        
+        elif battleship_payload.action == 'place': 
+            game = battleship_state.get_game(battleship_payload.name)
+
+            if game is None:
+                raise InvalidTransaction(
+                    'Invalid action: place requires an existing game')
+
+            if game.state == 'P1-NEXT' or game.state == 'P2-NEXT':
+                raise InvalidTransaction('Invalid Action : Game has already started, ships can no longer be placed')
+
 
         elif battleship_payload.action == 'shoot':
             game = battleship_state.get_game(battleship_payload.name)
