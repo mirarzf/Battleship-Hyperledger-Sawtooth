@@ -129,16 +129,6 @@ class BattleshipTransactionHandler(TransactionHandler):
             if game.state != 'PLACE': 
                 raise InvalidTransaction('Invalid Action : Game has already started, ships can no longer be placed')
 
-            if game.state != 'P1-PLACE' and game.state != 'P2-PLACE':
-                raise InvalidTransaction('Invalid Action : Game has already started, ships can no longer be placed')
-
-            if (game.player1 and game.state == 'P1-PLACE'
-                and game.player1 != signer) or \
-                    (game.player2 and game.state == 'P2-PLACE'
-                     and game.player2 != signer):
-                raise InvalidTransaction(
-                    "Not this player's turn: {}".format(signer[:6]))
-
             if game.state == "PLACE":
                 if game.player1 == signer: 
                     boardtoupdate = game.board_P1 
