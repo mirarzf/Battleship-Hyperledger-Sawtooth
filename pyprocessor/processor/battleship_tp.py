@@ -146,7 +146,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                         "Invalid action: the player '{}' doesn't exist in this game."
                         "'{}' and '{}' do though.".format(currentplayer, game.player1, game.player2))
 
-                upd_board = _place(boardtoupdate, 
+                upd_board, to_place_list = _place(boardtoupdate, 
                                     _game_boat_data_to_list(game.to_place),
                                     battleship_payload.space,
                                     battleship_payload.boat, 
@@ -159,6 +159,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                     game.board_P1 = upd_board
                 else: # game.player2 == currentplayer 
                     game.board_P2 = upd_board
+                game.to_place = _game_boat_data_to_str(to_place_list)
                 game.state = upd_game_state
 
         elif battleship_payload.action == 'shoot':
@@ -191,7 +192,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                 else :
                     print("HIT/SUNK/MISS")
 
-                upd_board = _update_board(game.board_P2, 
+                upd_board, boat_cases_list = _update_board(game.board_P2, 
                                         _game_boat_data_to_list(game.boat_cases),
                                         battleship_payload.space,
                                         game.state)
@@ -199,6 +200,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                 upd_game_state = _update_game_state(game.state, _game_boat_data_to_list(game.to_place), _game_boat_data_to_list(game.boat_cases))
 
                 game.board_P2 = upd_board
+                game.boat_cases = _game_boat_data_to_str(boat_cases_list)
                 game.state = upd_game_state
 
             if game.state == "P2-NEXT":
@@ -210,7 +212,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                 else :
                     print("HIT/SUNK/MISS")
 
-                upd_board = _update_board(game.board_P1, 
+                upd_board, boat_cases_list = _update_board(game.board_P1, 
                                         _game_boat_data_to_list(game.boat_cases),
                                         battleship_payload.space,
                                         game.state)
@@ -218,6 +220,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                 upd_game_state = _update_game_state(game.state, _game_boat_data_to_list(game.to_place), _game_boat_data_to_list(game.boat_cases))
 
                 game.board_P1 = upd_board
+                game.boat_cases = _game_boat_data_to_str(boat_cases_list)
                 game.state = upd_game_state
 
 
@@ -263,10 +266,12 @@ def _update_board(board, boat_cases, space, state):
             boat_cases[id][ID_BOAT.index(board[index])] -= 1
 
     # replace the index-th space with mark, leave everything else the same
-    return ''.join([
+    updated_board = ''.join([
         current if square != index else mark
         for square, current in enumerate(board)
     ])
+
+    return updated_board, boat_cases
 
 def _place(board, to_place, space, boat_ID, direction, playerid):
     '''
@@ -316,10 +321,12 @@ def _place(board, to_place, space, boat_ID, direction, playerid):
     to_place[playerid][ID_BOAT.index(boat_ID)] -= 1
 
     # replace the i-th space with mark and all the cases that are in the specified direction
-    return ''.join([
+    updated_board = ''.join([
         current if square not in index_list else mark
         for square, current in enumerate(board)
     ])
+
+    return updated_board, to_place 
 
 def _update_game_state(game_state, to_place, boat_cases):
     P1_wins = _is_win(0, boat_cases)
