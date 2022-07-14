@@ -180,9 +180,9 @@ class BattleshipTransactionHandler(TransactionHandler):
 
             currentplayer = battleship_payload.currentplayer
             if (game.player1 and game.state == 'P1-NEXT'
-                and game.player1 != signer) or \
+                and game.player1 != currentplayer) or \
                     (game.player2 and game.state == 'P2-NEXT'
-                     and game.player2 != signer):
+                     and game.player2 != currentplayer):
                 raise InvalidTransaction(
                     "Not this player's turn: {}".format(signer[:6]))
             
