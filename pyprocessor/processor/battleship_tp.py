@@ -414,12 +414,12 @@ def _display_enemy(board):
     This returns a board that shows where the 
     current player has shot on their enemy board. 
     '''
-    board_disp = []
+    board_disp = ""
     for k in board :
         if k in ID_BOAT :
-            board_disp.append(" ")
+            board_disp += " "
         else :
-            board_disp.append(k)
+            board_disp += k
     return board_disp
 
 def _game_data_to_str(board, game_state, player1, player2, name):
