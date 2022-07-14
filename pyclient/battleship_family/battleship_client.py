@@ -112,11 +112,13 @@ class BattleshipClient(object):
             auth_user=auth_user,
             auth_password=auth_password)
 
-    def place(self, name, space, wait=None, auth_user=None, auth_password=None):
+    def place(self, name, space, boat, direction, wait=None, auth_user=None, auth_password=None):
         return self._send_battleship_txn(
             name,
             "place",
             space,
+            boat, 
+            direction, 
             wait=wait,
             auth_user=auth_user,
             auth_password=auth_password)
@@ -327,11 +329,13 @@ class BattleshipClient(object):
                      name,
                      action,
                      space="",
+                     boat="", 
+                     direction="", 
                      wait=None,
                      auth_user=None,
                      auth_password=None):
         # Serialization is just a delimited utf-8 encoded string
-        payload = ",".join([name, action, str(space)]).encode()
+        payload = ",".join([name, action, str(space), str(boat), str(direction)]).encode()
 
         # Construct the address where we'll store our state 
         address = self._get_address(name)
