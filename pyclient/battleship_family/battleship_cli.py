@@ -199,8 +199,8 @@ def correct_space_row (string):
         raise argparse.ArgumentTypeError('Row has to be between A and J')
     return row 
     
-def correct_space_col (str): 
-    col = int(str) 
+def correct_space_col (int): 
+    col = int
     if col < 0 or col > 10: 
         raise argparse.ArgumentTypeError('Column has to be between 1 and 10')
     return col 
@@ -295,7 +295,7 @@ def add_place_parser(subparsers, parent_parser):
     parser.add_argument(
         'direction', 
         type=str, 
-        help='vertical or horizontal: goes to the right or '
+        help='vertical or horizontal. \n\n Goes to the right or '
         'to the bottom from the stated case'
     )
 
@@ -675,6 +675,7 @@ def do_place(args):
     column = args.col
     row = args.row 
     boat = args.boat
+    direction = args.direction
 
     # Conversion of the COL ROW format to INT of the space 
     rownames = {
@@ -699,12 +700,15 @@ def do_place(args):
 
     if args.wait and args.wait > 0:
         response = client.place(
-            name, space, wait=args.wait,
+            name, space, 
+            boat, direction, 
+            wait=args.wait,
             auth_user=auth_user,
             auth_password=auth_password)
     else:
         response = client.place(
             name, space,
+            boat, direction, 
             auth_user=auth_user,
             auth_password=auth_password)
 
