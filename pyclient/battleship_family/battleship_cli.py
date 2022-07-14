@@ -76,6 +76,16 @@ def add_create_parser(subparsers, parent_parser):
         help='unique identifier for the new game')
 
     parser.add_argument(
+        'player1',
+        type=str,
+        help="identify name of player1's private key file")
+
+    parser.add_argument(
+        'player2',
+        type=str,
+        help="identify name of player2's private key file")
+
+    parser.add_argument(
         '--url',
         type=str,
         help='specify URL of REST API')
@@ -600,9 +610,11 @@ def display_enemy(board):
 
 def do_create(args):
     '''
-    This creates a new game
+    This creates a new game. 
     '''
     name = args.name
+    P1 = args.player1
+    P2 = args.player2 
 
     url = _get_url(args)
     keyfile = _get_keyfile(args)
@@ -613,11 +625,14 @@ def do_create(args):
     if args.wait and args.wait > 0:
         response = client.create(
             name, wait=args.wait,
+            player1=P1, player2=P2, 
             auth_user=auth_user,
             auth_password=auth_password)
     else:
         response = client.create(
-            name, auth_user=auth_user,
+            name, 
+            player1=P1, player2=P2, 
+            auth_user=auth_user,
             auth_password=auth_password)
 
     print("Response: {}".format(response))
@@ -700,15 +715,15 @@ def do_place(args):
 
     if args.wait and args.wait > 0:
         response = client.place(
-            name, space, 
-            boat, direction, 
+            name, space=space, 
+            boat=boat, direction=direction, 
             wait=args.wait,
             auth_user=auth_user,
             auth_password=auth_password)
     else:
         response = client.place(
-            name, space,
-            boat, direction, 
+            name, space=space, 
+            boat=boat, direction=direction, 
             auth_user=auth_user,
             auth_password=auth_password)
 
