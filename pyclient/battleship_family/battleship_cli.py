@@ -31,7 +31,7 @@ from colorlog import ColoredFormatter
 
 
 from battleship_family.battleship_client import BattleshipClient
-ID_BOAT = ['Z', 'Y', 'X', 'W', 'V']
+ID_BOAT = ['L', 'M', 'N', 'O', 'P'] # Name IDs of ID_BOAT, can be found in TP as well 
 
 DISTRIBUTION_NAME = 'battleship'
 
@@ -220,6 +220,12 @@ def correct_direction (str):
     if dir != "horizontal" and dir != "vertical": 
         raise argparse.ArgumentTypeError('Direction has to be horizontal or vertical')
     return dir 
+    
+def correct_boat (str): 
+    boat = str
+    if boat not in ID_BOAT: 
+        raise argparse.ArgumentTypeError('Boat has to be {}, {}, {}, {}, {}.'.format(ID_BOAT[0], ID_BOAT[1], ID_BOAT[2], ID_BOAT[3], ID_BOAT[4]))
+    return boat 
 
 def add_shoot_parser(subparsers, parent_parser):
     parser = subparsers.add_parser(
@@ -317,7 +323,7 @@ def add_place_parser(subparsers, parent_parser):
 
     parser.add_argument(
         'boat', 
-        type=str, 
+        type=correct_boat, 
         help='boat type from V to Z. \n\n'
         'V: 5 cases \n'
         'W: 4 cases \n'

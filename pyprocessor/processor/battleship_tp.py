@@ -29,8 +29,8 @@ from processor.battleship_payload import BattleshipPayload
 from processor.battleship_state import Game, BattleshipState
 
 LOGGER = logging.getLogger(__name__)
-ID_BOAT = ['Z', 'Y', 'X', 'W', 'V']
-BOAT_CASES = [[5, 4, 3, 3, 2],[5, 4, 3, 3, 2]]
+ID_BOAT = ['L', 'M', 'N', 'O', 'P'] # Name IDs of ID_BOAT, can be found in CLI as well 
+BOAT_CASES = [[5, 4, 3, 3, 2],[5, 4, 3, 3, 2]] # Initial number of cases for boat cases 
 
 FAMILY_NAME = "battleship"
 
@@ -206,6 +206,19 @@ class BattleshipTransactionHandler(TransactionHandler):
                 game.boat_cases = _game_boat_data_to_str(boat_cases_list)
                 game.state = upd_game_state
 
+                battleship_state.set_game(battleship_payload.name, game)
+
+                _display(
+                    "Player {} attacks space: {}\n\n".format(
+                        signer[:6],
+                        battleship_payload.space)
+                    + _game_data_to_str(
+                        _display_enemy(game.board_P2),
+                        game.state,
+                        game.player1,
+                        game.player2,
+                        battleship_payload.name))
+
             if game.state == "P2-NEXT":
 
                 if game.board_P1[battleship_payload.space - 1] == 'X' or game.board_P1[battleship_payload.space - 1] == 'O':
@@ -226,19 +239,18 @@ class BattleshipTransactionHandler(TransactionHandler):
                 game.boat_cases = _game_boat_data_to_str(boat_cases_list)
                 game.state = upd_game_state
 
-            battleship_state.set_game(battleship_payload.name, game)
+                battleship_state.set_game(battleship_payload.name, game)
 
-            _display(
-                "Player {} attacks space: {}\n\n".format(
-                    signer[:6],
-                    battleship_payload.space)
-                + _game_data_to_str(
-                    game.board_P1,
-                    game.board_P2,
-                    game.state,
-                    game.player1,
-                    game.player2,
-                    battleship_payload.name))
+                _display(
+                    "Player {} attacks space: {}\n\n".format(
+                        signer[:6],
+                        battleship_payload.space)
+                    + _game_data_to_str(
+                        _display_enemy(game.board_P1),
+                        game.state,
+                        game.player1,
+                        game.player2,
+                        battleship_payload.name))
 
         else:
             raise InvalidTransaction('Unhandled action: {}'.format(
@@ -395,6 +407,19 @@ def _game_boat_data_to_list(boat_str):
             playeri.append(int(boat_str[i*5+j]))
         out.append(playeri)
     return out 
+
+def _display_enemy(board):
+    ''' 
+    This returns a board that shows where the 
+    current player has shot on their enemy board. 
+    '''
+    board_disp = []
+    for k in board :
+        if k in ID_BOAT :
+            board_disp.append(" ")
+        else :
+            board_disp.append(k)
+    return board_disp
 
 def _game_data_to_str(board, game_state, player1, player2, name):
     board = list(board.replace("-", " "))
