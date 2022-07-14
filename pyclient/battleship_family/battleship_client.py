@@ -114,13 +114,14 @@ class BattleshipClient(object):
             auth_user=auth_user,
             auth_password=auth_password)
 
-    def place(self, name, space, boat, direction, wait=None, auth_user=None, auth_password=None):
+    def place(self, name, space, boat, direction, currentplayer, wait=None, auth_user=None, auth_password=None):
         return self._send_battleship_txn(
             name,
             "place",
             space,
             boat, 
             direction, 
+            currentplayer, 
             wait=wait,
             auth_user=auth_user,
             auth_password=auth_password)
