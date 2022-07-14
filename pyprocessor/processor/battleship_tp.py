@@ -133,7 +133,6 @@ class BattleshipTransactionHandler(TransactionHandler):
 
             if game.state == "PLACE":
                 currentplayer = battleship_payload.currentplayer
-                print("THIS IS THE CURRENT PLAYER IN TP: ", currentplayer)
                 if game.player1 == currentplayer: 
                     boardtoupdate = game.board_P1 
                     id = 0
@@ -153,11 +152,9 @@ class BattleshipTransactionHandler(TransactionHandler):
 
                 upd_game_state = _update_game_state(game.state)
 
-                if game.player1 == signer: 
-                    print("player 1 has seen their board updated")
+                if game.player1 == currentplayer: 
                     game.board_P1 = upd_board
-                else: # game.player2 == signer 
-                    print("player 2 has seen their board updated")
+                else: # game.player2 == currentplayer 
                     game.board_P2 = upd_board
                 game.state = upd_game_state
 
@@ -276,7 +273,7 @@ def _place(board, space, boat_ID, direction, playerid):
     '''
 
     if TO_PLACE[playerid][ID_BOAT.index(boat_ID)] == 0:
-        raise InvalidTransaction('Invalid Action: This boat has already been placed')
+        raise InvalidTransaction('Invalid Action: This boat has already been placed. {}'.format(TO_PLACE[playerid]))
 
     index = space - 1
     mark = boat_ID
