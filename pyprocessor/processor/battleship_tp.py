@@ -124,6 +124,7 @@ class BattleshipTransactionHandler(TransactionHandler):
         
         elif battleship_payload.action == 'place': 
             game = battleship_state.get_game(battleship_payload.name)
+            print("ACTION")
 
             if game is None:
                 raise InvalidTransaction(
@@ -195,12 +196,6 @@ class BattleshipTransactionHandler(TransactionHandler):
                             battleship_payload))
                 else :
                     print("HIT/SUNK/MISS")   #TBD add X to the board
-
-                # if game.player1 == '':
-                #     game.player1 = signer
-
-                # elif game.player2 == '':
-                #     game.player2 = signer
 
                 upd_board = _update_board(game.board_P2,
                                         battleship_payload.space,

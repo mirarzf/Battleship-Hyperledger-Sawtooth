@@ -517,8 +517,6 @@ def do_show(args):
 
         board_P1 = list(board_str_P1.replace("-", " "))
         board_P2 = list(board_str_P2.replace("-", " "))
-
-        ## ERROR IN TEST only works when you can only display when it's your turn
         
         currentplayer = args.username 
         if currentplayer == player1: 
