@@ -146,13 +146,14 @@ class BattleshipTransactionHandler(TransactionHandler):
                         "Invalid action: the player '{}' doesn't exist in this game."
                         "'{}' and '{}' do though.".format(currentplayer, game.player1, game.player2))
 
-                upd_board = _place(boardtoupdate,  game.to_place,
+                upd_board = _place(boardtoupdate, 
+                                    _game_boat_data_to_list(game.to_place),
                                     battleship_payload.space,
                                     battleship_payload.boat, 
                                     battleship_payload.direction, 
                                     id)
 
-                upd_game_state = _update_game_state(game.state, game.to_place, game.boat_cases)
+                upd_game_state = _update_game_state(game.state, _game_boat_data_to_list(game.to_place), _game_boat_data_to_list(game.boat_cases))
 
                 if game.player1 == currentplayer: 
                     game.board_P1 = upd_board
@@ -190,11 +191,12 @@ class BattleshipTransactionHandler(TransactionHandler):
                 else :
                     print("HIT/SUNK/MISS")
 
-                upd_board = _update_board(game.board_P2, game.boat_cases,
+                upd_board = _update_board(game.board_P2, 
+                                        _game_boat_data_to_list(game.boat_cases),
                                         battleship_payload.space,
                                         game.state)
 
-                upd_game_state = _update_game_state(game.state, game.to_place, game.boat_cases)
+                upd_game_state = _update_game_state(game.state, _game_boat_data_to_list(game.to_place), _game_boat_data_to_list(game.boat_cases))
 
                 game.board_P2 = upd_board
                 game.state = upd_game_state
@@ -208,11 +210,12 @@ class BattleshipTransactionHandler(TransactionHandler):
                 else :
                     print("HIT/SUNK/MISS")
 
-                upd_board = _update_board(game.board_P1, game.boat_cases,
+                upd_board = _update_board(game.board_P1, 
+                                        _game_boat_data_to_list(game.boat_cases),
                                         battleship_payload.space,
                                         game.state)
 
-                upd_game_state = _update_game_state(game.state, game.to_place, game.boat_cases)
+                upd_game_state = _update_game_state(game.state, _game_boat_data_to_list(game.to_place), _game_boat_data_to_list(game.boat_cases))
 
                 game.board_P1 = upd_board
                 game.state = upd_game_state
