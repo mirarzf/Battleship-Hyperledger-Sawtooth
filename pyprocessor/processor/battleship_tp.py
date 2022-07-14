@@ -141,7 +141,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                     id = 1
                 else: 
                     raise InvalidTransaction(
-                        "Invalid action: this player '{}' doesn't exist."
+                        "Invalid action: the player '{}' doesn't exist in this game."
                         "'{}' and '{}' do though.".format(currentplayer, game.player1, game.player2))
 
                 upd_board = _place(boardtoupdate,
@@ -309,7 +309,7 @@ def _place(board, space, boat_ID, direction, playerid):
             raise InvalidTransaction('Invalid Action: Your boat is overlapping with another')
 
     TO_PLACE[playerid][ID_BOAT.index(boat_ID)] -= 1
-    
+
     # replace the i-th space with mark and all the cases that are in the specified direction
     return ''.join([
         current if square not in index_list else mark
