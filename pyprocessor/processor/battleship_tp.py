@@ -139,9 +139,6 @@ class BattleshipTransactionHandler(TransactionHandler):
                 elif game.player2 == currentplayer: 
                     boardtoupdate = game.board_P2 
                     id = 1
-                elif game.player1 == '' or game.player2 == '': 
-                    raise InvalidTransaction(
-                        "Invalid action: this player doesn't exist")
                 else: 
                     raise InvalidTransaction(
                         "Invalid action: this player {} doesn't exist".format(game.player1))
