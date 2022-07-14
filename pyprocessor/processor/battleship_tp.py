@@ -153,7 +153,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                                     battleship_payload.direction, 
                                     id)
 
-                upd_game_state = _update_game_state(game.state, _game_boat_data_to_list(game.to_place), _game_boat_data_to_list(game.boat_cases))
+                upd_game_state = _update_game_state(game.state, to_place_list, _game_boat_data_to_list(game.boat_cases))
 
                 if game.player1 == currentplayer: 
                     game.board_P1 = upd_board
@@ -178,6 +178,7 @@ class BattleshipTransactionHandler(TransactionHandler):
             if game.state == 'PLACE':
                 raise InvalidTransaction('Invalid Action : Game has not started, ships are still being placed')
 
+            currentplayer = battleship_payload.currentplayer
             if (game.player1 and game.state == 'P1-NEXT'
                 and game.player1 != signer) or \
                     (game.player2 and game.state == 'P2-NEXT'
@@ -199,7 +200,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                                         battleship_payload.space,
                                         game.state)
 
-                upd_game_state = _update_game_state(game.state, _game_boat_data_to_list(game.to_place), _game_boat_data_to_list(game.boat_cases))
+                upd_game_state = _update_game_state(game.state, _game_boat_data_to_list(game.to_place), boat_cases_list)
 
                 game.board_P2 = upd_board
                 game.boat_cases = _game_boat_data_to_str(boat_cases_list)
@@ -219,7 +220,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                                         battleship_payload.space,
                                         game.state)
 
-                upd_game_state = _update_game_state(game.state, _game_boat_data_to_list(game.to_place), _game_boat_data_to_list(game.boat_cases))
+                upd_game_state = _update_game_state(game.state, _game_boat_data_to_list(game.to_place), boat_cases_list)
 
                 game.board_P1 = upd_board
                 game.boat_cases = _game_boat_data_to_str(boat_cases_list)

@@ -105,11 +105,12 @@ class BattleshipClient(object):
             auth_user=auth_user,
             auth_password=auth_password)
 
-    def shoot(self, name, space, wait=None, auth_user=None, auth_password=None):
+    def shoot(self, name, space, currentplayer, wait=None, auth_user=None, auth_password=None):
         return self._send_battleship_txn(
             name,
             "shoot",
             space,
+            currentplayer=currentplayer, 
             wait=wait,
             auth_user=auth_user,
             auth_password=auth_password)

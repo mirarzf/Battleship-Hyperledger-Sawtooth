@@ -652,6 +652,7 @@ def do_shoot(args):
     name = args.name
     column = args.col
     row = args.row 
+    currentplayer = args.username
 
     # Conversion of the COL ROW format to INT of the space 
     rownames = {
@@ -676,12 +677,13 @@ def do_shoot(args):
 
     if args.wait and args.wait > 0:
         response = client.shoot(
-            name, space, wait=args.wait,
+            name, space, currentplayer=currentplayer, 
+            wait=args.wait,
             auth_user=auth_user,
             auth_password=auth_password)
     else:
         response = client.shoot(
-            name, space,
+            name, space, currentplayer=currentplayer, 
             auth_user=auth_user,
             auth_password=auth_password)
 
