@@ -31,7 +31,7 @@ from colorlog import ColoredFormatter
 
 
 from battleship_family.battleship_client import BattleshipClient
-ID_BOAT = ['L', 'M', 'N', 'O', 'P'] # Name IDs of ID_BOAT, can be found in TP as well 
+ID_BOAT = ['L', 'M', 'N', 'Q', 'P'] # Name IDs of ID_BOAT, can be found in TP as well 
 
 DISTRIBUTION_NAME = 'battleship'
 
