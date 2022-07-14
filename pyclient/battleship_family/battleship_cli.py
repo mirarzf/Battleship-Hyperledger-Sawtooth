@@ -295,14 +295,14 @@ def add_place_parser(subparsers, parent_parser):
     parser.add_argument(
         'direction', 
         type=str, 
-        help='vertical or horizontal: goes to the right or'
+        help='vertical or horizontal: goes to the right or '
         'to the bottom from the stated case'
     )
 
     parser.add_argument(
         'boat', 
         type=str, 
-        help='boat type from V to Z \n'
+        help='boat type from V to Z. \n\n'
         'V: 5 cases \n'
         'W: 4 cases \n'
         'X: 3 cases \n'
