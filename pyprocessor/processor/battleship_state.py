@@ -12,13 +12,15 @@ def _make_battleship_address(name):
 
 
 class Game:
-    def __init__(self, name, board_P1, board_P2, state, player1, player2):
+    def __init__(self, name, board_P1, board_P2, state, player1, player2, boat_cases, to_place):
         self.name = name
         self.board_P1 = board_P1
         self.board_P2 = board_P2
         self.state = state
         self.player1 = player1
         self.player2 = player2
+        self.boat_cases = boat_cases
+        self.to_place = to_place
 
 
 class BattleshipState:
@@ -139,9 +141,9 @@ class BattleshipState:
         games = {}
         try:
             for game in data.decode().split("|"):
-                name, board_P1, board_P2, state, player1, player2 = game.split(",")
+                name, board_P1, board_P2, state, player1, player2, boat_cases, to_place = game.split(",")
 
-                games[name] = Game(name, board_P1, board_P2, state, player1, player2)
+                games[name] = Game(name, board_P1, board_P2, state, player1, player2, boat_cases, to_place)
         except ValueError as e:
             raise InternalError("Failed to deserialize game data") from e
 
@@ -160,7 +162,7 @@ class BattleshipState:
         game_strs = []
         for name, g in games.items():
             game_str = ",".join(
-                [name, g.board_P1, g.board_P2, g.state, g.player1, g.player2])
+                [name, g.board_P1, g.board_P2, g.state, g.player1, g.player2, g.boat_cases, g.to_place])
             game_strs.append(game_str)
 
         return "|".join(sorted(game_strs)).encode()
