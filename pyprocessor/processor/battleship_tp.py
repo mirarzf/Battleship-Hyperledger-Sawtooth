@@ -193,7 +193,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                         'Invalid Action: space {} already attacked'.format(
                             battleship_payload))
                 else :
-                    print("HIT/SUNK/MISS")
+                    print("HIT, SUNK or MISS ?")
 
                 upd_board, boat_cases_list = _update_board(game.board_P2, 
                                         _game_boat_data_to_list(game.boat_cases),
@@ -258,6 +258,7 @@ class BattleshipTransactionHandler(TransactionHandler):
 
 def _update_board(board, boat_cases, space, state):
     index = space - 1
+    mark = ''
 
     if state == 'PLACE' :
         mark = board[index]
