@@ -29,7 +29,7 @@ from processor.battleship_payload import BattleshipPayload
 from processor.battleship_state import Game, BattleshipState
 
 LOGGER = logging.getLogger(__name__)
-ID_BOAT = ['L', 'M', 'N', 'O', 'P'] # Name IDs of ID_BOAT, can be found in CLI as well 
+ID_BOAT = ['L', 'M', 'N', 'Q', 'P'] # Name IDs of ID_BOAT, can be found in CLI as well 
 BOAT_CASES = [[5, 4, 3, 3, 2],[5, 4, 3, 3, 2]] # Initial number of cases for boat cases 
 
 FAMILY_NAME = "battleship"
@@ -424,6 +424,7 @@ def _display_enemy(board):
 
 def _game_data_to_str(board, game_state, player1, player2, name):
     board = list(board.replace("-", " "))
+    print(len(board))
     out = ""
     out += "GAME: {}\n".format(name)
     out += "PLAYER 1: {}\n".format(player1[:6])
