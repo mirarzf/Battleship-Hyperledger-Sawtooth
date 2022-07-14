@@ -541,7 +541,9 @@ def do_create(args):
 
 def do_shoot(args):
     '''
-    Give the name of the game, the column and the row, this shoots on the enemy board at the given spot
+    Given the name of the game, the row and the column, this shoots on the enemy board at the given spot
+    row is a character A-J
+    col is an int 1-10 
     '''
     name = args.name
     column = args.col
@@ -583,6 +585,9 @@ def do_shoot(args):
 
 
 def do_delete(args):
+    '''
+    This deletes the game that has the name you give as argument
+    '''
     name = args.name
 
     url = _get_url(args)
