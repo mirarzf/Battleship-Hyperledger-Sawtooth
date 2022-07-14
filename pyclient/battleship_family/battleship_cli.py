@@ -490,7 +490,7 @@ def do_list(args):
         print(fmt % ('GAME', 'PLAYER 1', 'PLAYER 2', 'STATE'))
         for game_data in game_list:
 
-            name, board_P1, board_P2, game_state, player1, player2, boat_cases, to_place = game_data
+            name, board_P1, board_P2, game_state, player1, player2 = game_data
 
             print(fmt % (name, player1[:6], player2[:6], game_state))
     else:
