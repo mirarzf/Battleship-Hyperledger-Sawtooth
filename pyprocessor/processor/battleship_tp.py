@@ -265,6 +265,7 @@ def _update_board(board, space, state):
 
 def _place(board, space, boat_ID, direction, playerid):
     '''
+    board is the board of the player where the boat will be placed. 
     space corresponds to the space of the boat: int between 1 and 100. 
     Direction is either 'vertical' or 'horizontal'. 
     boat_ID is the type of boat. 
@@ -321,25 +322,23 @@ def _update_game_state(game_state):
 
     if start_game:
         return 'P1-NEXT'
-    else: 
-        return 'PLACE'
 
-    if P1_wins and P2_wins:
+    elif P1_wins and P2_wins:
         raise InternalError('Two winners (there can be only one)')
 
-    if P1_wins:
+    elif P1_wins:
         return 'P1-WIN'
 
-    if P2_wins:
+    elif P2_wins:
         return 'P2-WIN'
 
-    if game_state == 'P1-NEXT':
+    elif game_state == 'P1-NEXT':
         return 'P2-NEXT'
 
-    if game_state == 'P2-NEXT':
+    elif game_state == 'P2-NEXT':
         return 'P1-NEXT'
-
-    if game_state in ('P1-WINS', 'P2-WINS'):
+    
+    else: 
         return game_state
 
     raise InternalError('Unhandled state: {}'.format(game_state))
