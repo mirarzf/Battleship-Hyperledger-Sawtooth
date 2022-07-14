@@ -216,6 +216,9 @@ def place(board, row, col, state, boat_ID, direction):
         "I": 8, 
         "J": 9, 
     }
+    if TO_PLACE[id][ID_BOAT.index(boat_ID)] == 0:
+        raise InvalidTransaction('Invalid Action: This boat has already been placed')
+
     if state == 'P1-NEXT' :
         id = 1
     else :
