@@ -273,7 +273,7 @@ def _place(board, space, boat_ID, direction, playerid):
     playerid = 1 if player2 is placing their boat. 
     '''
 
-    if TO_PLACE[id][ID_BOAT.index(boat_ID)] == 0:
+    if TO_PLACE[playerid][ID_BOAT.index(boat_ID)] == 0:
         raise InvalidTransaction('Invalid Action: This boat has already been placed. {}'.format(TO_PLACE[playerid]))
 
     index = space - 1
