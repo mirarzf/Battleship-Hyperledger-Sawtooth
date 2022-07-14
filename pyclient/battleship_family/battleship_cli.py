@@ -214,6 +214,12 @@ def correct_space_col (str):
     if col < 1 or col > 10: 
         raise argparse.ArgumentTypeError('Column has to be between 1 and 10')
     return col 
+    
+def correct_direction (str): 
+    dir = str
+    if dir != "horizontal" and dir != "vertical": 
+        raise argparse.ArgumentTypeError('Direction has to be horizontal or vertical')
+    return dir 
 
 def add_shoot_parser(subparsers, parent_parser):
     parser = subparsers.add_parser(
@@ -304,7 +310,7 @@ def add_place_parser(subparsers, parent_parser):
 
     parser.add_argument(
         'direction', 
-        type=str, 
+        type=correct_direction, 
         help='vertical or horizontal. \n\n Goes to the right or '
         'to the bottom from the stated case'
     )
