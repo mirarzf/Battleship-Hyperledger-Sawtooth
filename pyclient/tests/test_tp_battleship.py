@@ -46,7 +46,7 @@ class TestBattleship(TransactionProcessorTestCase):
         self.expect_invalid()
 
     def test_no_name(self):
-        self.send_transaction('take', '', 4)
+        self.send_transaction('shoot', '', 4)
 
         self.expect_invalid()
 
@@ -62,15 +62,17 @@ class TestBattleship(TransactionProcessorTestCase):
 
         self.send_get_response(
             game='create-game',
-            board=None,
+            board_P1=None,
+            board_P2=None,
             state=None,
             player_1=None,
             player_2=None)
 
         self.expect_set_request(
             game='create-game',
-            board='---------------------------------------------------------------------------------------------------',
-            state='P1-NEXT',
+            board_P1='---------------------------------------------------------------------------------------------------',
+            board_P2='---------------------------------------------------------------------------------------------------',
+            state='PLACE',
             player_1='',
             player_2='')
 
@@ -79,53 +81,59 @@ class TestBattleship(TransactionProcessorTestCase):
 
         self.send_get_response(
             game='already-created',
-            board='---------------------------------------------------------------------------------------------------')
+            board_P1='---------------------------------------------------------------------------------------------------',
+            board_P2='---------------------------------------------------------------------------------------------------')
 
         self.expect_invalid()
 
-    # take
+    # shoot
 
-    def test_take_space(self):
+    def test_shoot_space(self):
         # player 1 takes a space
-        self.take_space('take-space', 3, signer=1)
+        self.shoot_space('shoot-space', 'A', 1, signer=1)
 
         self.send_get_response(
-            game='take-space',
-            board='---------',
+            game='shoot-space',
+            board_P1='---------------------------------------------------------------------------------------------------',
+            board_P2='---------------------------------------------------------------------------------------------------',
             state='P1-NEXT',
             player_1='',
             player_2='')
 
         self.expect_set_request(
-            game='take-space',
-            board='--X------',
+            game='shoot-space',
+            board_P1='---------------------------------------------------------------------------------------------------',
+            board_P2='X--------------------------------------------------------------------------------------------------',
             state='P2-NEXT',
             player_1=self.public_key_1,
             player_2='')
 
         # player 2 takes a space
-        self.take_space('take-space', 7, signer=2)
+        self.take_space('take-space', 'A', 1, signer=2)
 
         self.send_get_response(
-            game='take-space',
-            board='--X------',
+            game='shoot-space',
+            board_P1='---------------------------------------------------------------------------------------------------',
+            board_P2='X--------------------------------------------------------------------------------------------------',
             state='P2-NEXT',
             player_1=self.public_key_1,
             player_2='')
 
         self.expect_set_request(
-            game='take-space',
-            board='--X---O--',
+            game='shoot-space',
+            board_P1='X--------------------------------------------------------------------------------------------------',
+            board_P2='X--------------------------------------------------------------------------------------------------',
             state='P1-NEXT',
             player_1=self.public_key_1,
             player_2=self.public_key_2)
 
         # player 1 goes again
-        self.take_space('take-space', 9, signer=1)
+        self.take_space('shoot-space', 'A', 2, signer=1)
 
         self.send_get_response(
-            game='take-space',
-            board='--X---O--',
+            game='shoot-space',
+            board_P1='X--------------------------------------------------------------------------------------------------',
+            board_P2='XX-------------------------------------------------------------------------------------------------',
             state='P1-NEXT',
             player_1=self.public_key_1,
             player_2=self.public_key_2)
@@ -136,7 +144,7 @@ class TestBattleship(TransactionProcessorTestCase):
             state='P2-NEXT',
             player_1=self.public_key_1,
             player_2=self.public_key_2)
-
+        ##HERE
         # player 2 goes again
         self.take_space('take-space', 1, signer=2)
 
