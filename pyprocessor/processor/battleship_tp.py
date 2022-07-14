@@ -184,7 +184,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                     (game.player2 and game.state == 'P2-NEXT'
                      and game.player2 != currentplayer):
                 raise InvalidTransaction(
-                    "Not this player's turn: {}".format(signer[:6]))
+                    "Not this player's turn: {}".format(currentplayer[:6]))
             
             if game.state == "P1-NEXT":
 
