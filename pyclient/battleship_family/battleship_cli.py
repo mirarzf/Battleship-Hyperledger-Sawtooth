@@ -698,7 +698,7 @@ def do_place(args):
     client = BattleshipClient(base_url=url, keyfile=keyfile)
 
     if args.wait and args.wait > 0:
-        response = client.shoot(
+        response = client.place(
             name, space, wait=args.wait,
             auth_user=auth_user,
             auth_password=auth_password)
