@@ -696,6 +696,7 @@ def do_place(args):
     row = args.row 
     boat = args.boat
     direction = args.direction
+    currentplayer = args.username 
 
     # Conversion of the COL ROW format to INT of the space 
     rownames = {
@@ -722,6 +723,7 @@ def do_place(args):
         response = client.place(
             name, space=space, 
             boat=boat, direction=direction, 
+            currentplayer=currentplayer, 
             wait=args.wait,
             auth_user=auth_user,
             auth_password=auth_password)
@@ -729,6 +731,7 @@ def do_place(args):
         response = client.place(
             name, space=space, 
             boat=boat, direction=direction, 
+            currentplayer=currentplayer, 
             auth_user=auth_user,
             auth_password=auth_password)
 
