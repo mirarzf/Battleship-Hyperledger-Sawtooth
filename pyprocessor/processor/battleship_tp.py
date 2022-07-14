@@ -417,7 +417,7 @@ def _display_enemy(board):
     board_disp = ""
     for k in board :
         if k in ID_BOAT :
-            board_disp += " "
+            board_disp += "-"
         else :
             board_disp += k
     return board_disp
