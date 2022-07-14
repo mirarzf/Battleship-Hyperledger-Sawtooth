@@ -162,7 +162,7 @@ class BattleshipState:
         game_strs = []
         for name, g in games.items():
             game_str = ",".join(
-                [name, g.board_P1, g.board_P2, g.state, g.player1, g.player2, g.boat_cases, g.to_place])
+                [name, g.board_P1, g.board_P2, g.state, g.player1, g.player2])
             game_strs.append(game_str)
 
         return "|".join(sorted(game_strs)).encode()
