@@ -92,6 +92,9 @@ class BattleshipTransactionHandler(TransactionHandler):
             battleship_state.delete_game(battleship_payload.name)
 
         elif battleship_payload.action == 'create':
+            if battleship_payload.player1 == None or battleship_payload.player2 == None: 
+                raise InvalidTransaction(
+                    'Invalid action: create requires two players')
 
             if battleship_state.get_game(battleship_payload.name) is not None:
                 raise InvalidTransaction(
