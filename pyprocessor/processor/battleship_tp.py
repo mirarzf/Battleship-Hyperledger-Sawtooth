@@ -152,7 +152,6 @@ class BattleshipTransactionHandler(TransactionHandler):
 
                 upd_board = _place(boardtoupdate,
                                     battleship_payload.space,
-                                    game.state, 
                                     battleship_payload.boat, 
                                     battleship_payload.direction, 
                                     id)
@@ -278,7 +277,7 @@ def _update_board(board, space, state):
         for square, current in enumerate(board)
     ])
 
-def _place(board, space, state, boat_ID, direction, playerid):
+def _place(board, space, boat_ID, direction, playerid):
     '''
     space corresponds to the space of the boat: int between 1 and 100. 
     Direction is either 'vertical' or 'horizontal'. 
@@ -287,17 +286,13 @@ def _place(board, space, state, boat_ID, direction, playerid):
     playerid = 1 if player2 is placing their boat. 
     '''
 
-    if TO_PLACE[id][ID_BOAT.index(boat_ID)] == 0:
+    if TO_PLACE[playerid][ID_BOAT.index(boat_ID)] == 0:
         raise InvalidTransaction('Invalid Action: This boat has already been placed')
 
     index = space - 1
-
-    if state != 'PLACE':
-        raise InvalidTransaction('Invalid Action: Game has started, all the ships have been placed')
     mark = boat_ID
-
-    boat_length = BOAT_CASES[id][ID_BOAT.index(boat_ID)]
-
+    boat_length = BOAT_CASES[playerid][ID_BOAT.index(boat_ID)]
+    
     # test if the boat will stay inside the board
     if direction == 'vertical':
         x = 0
@@ -314,7 +309,6 @@ def _place(board, space, state, boat_ID, direction, playerid):
     index_list = []
     for k in range(boat_length):
         index_list.append(index + k*x + k*y*10)
-        mark = boat_ID
 
     path = []
     for square, current in enumerate(board) :
@@ -327,7 +321,7 @@ def _place(board, space, state, boat_ID, direction, playerid):
         if k in path :
             raise InvalidTransaction('Invalid Action: Your boat is overlapping with another')
 
-    TO_PLACE[id][ID_BOAT.index(boat_ID)] -= 1
+    TO_PLACE[playerid][ID_BOAT.index(boat_ID)] -= 1
     # replace the i-th space with mark and all the cases that are in the specified direction
     return ''.join([
         current if square not in index_list else mark
