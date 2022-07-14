@@ -14,6 +14,7 @@
 Transaction family class for battleship.
 '''
 
+from re import M
 import traceback
 import sys
 import hashlib
@@ -30,7 +31,6 @@ from processor.battleship_state import Game, BattleshipState
 LOGGER = logging.getLogger(__name__)
 ID_BOAT = ['Z', 'Y', 'X', 'W', 'V']
 BOAT_CASES = [[5, 4, 3, 3, 2],[5, 4, 3, 3, 2]]
-TO_PLACE = [[1, 1, 1, 1, 1], [1, 1, 1, 1, 1]]
 
 FAMILY_NAME = "battleship"
 
@@ -106,7 +106,9 @@ class BattleshipTransactionHandler(TransactionHandler):
                         board_P2="-" * 100,
                         state="PLACE",
                         player1=battleship_payload.player1,
-                        player2=battleship_payload.player2)
+                        player2=battleship_payload.player2,
+                        boat_cases=[[5, 4, 3, 3, 2],[5, 4, 3, 3, 2]],
+                        to_place=[[1, 1, 1, 1, 1], [1, 1, 1, 1, 1]])
 
             battleship_state.set_game(battleship_payload.name, game)
             _display("Player {} created a game.".format(signer[:6]))
@@ -144,13 +146,13 @@ class BattleshipTransactionHandler(TransactionHandler):
                         "Invalid action: the player '{}' doesn't exist in this game."
                         "'{}' and '{}' do though.".format(currentplayer, game.player1, game.player2))
 
-                upd_board = _place(boardtoupdate,
+                upd_board = _place(boardtoupdate,  game.to_place,
                                     battleship_payload.space,
                                     battleship_payload.boat, 
                                     battleship_payload.direction, 
                                     id)
 
-                upd_game_state = _update_game_state(game.state)
+                upd_game_state = _update_game_state(game.state, game.to_place, game.boat_cases)
 
                 if game.player1 == currentplayer: 
                     game.board_P1 = upd_board
@@ -186,13 +188,13 @@ class BattleshipTransactionHandler(TransactionHandler):
                         'Invalid Action: space {} already attacked'.format(
                             battleship_payload))
                 else :
-                    print("HIT/SUNK/MISS")   #TBD add X to the board
+                    print("HIT/SUNK/MISS")
 
-                upd_board = _update_board(game.board_P2,
+                upd_board = _update_board(game.board_P2, game.boat_cases,
                                         battleship_payload.space,
                                         game.state)
 
-                upd_game_state = _update_game_state(game.state)
+                upd_game_state = _update_game_state(game.state, game.to_place, game.boat_cases)
 
                 game.board_P2 = upd_board
                 game.state = upd_game_state
@@ -204,13 +206,13 @@ class BattleshipTransactionHandler(TransactionHandler):
                         'Invalid Action: space {} already attacked'.format(
                             battleship_payload))
                 else :
-                    print("HIT/SUNK/MISS")   #TBD add X to the board
+                    print("HIT/SUNK/MISS")
 
-                upd_board = _update_board(game.board_P1,
+                upd_board = _update_board(game.board_P1, game.boat_cases,
                                         battleship_payload.space,
                                         game.state)
 
-                upd_game_state = _update_game_state(game.state)
+                upd_game_state = _update_game_state(game.state, game.to_place, game.boat_cases)
 
                 game.board_P1 = upd_board
                 game.state = upd_game_state
@@ -233,7 +235,7 @@ class BattleshipTransactionHandler(TransactionHandler):
             raise InvalidTransaction('Unhandled action: {}'.format(
                 battleship_payload.action))
 
-def _update_board(board, space, state):
+def _update_board(board, boat_cases, space, state):
     index = space - 1
 
     if state == 'PLACE' :
@@ -249,13 +251,13 @@ def _update_board(board, space, state):
                 id = 1
             else :
                 id = 0
-            if BOAT_CASES[id][ID_BOAT.index(board[index])] == 1:
+            if boat_cases[id][ID_BOAT.index(board[index])] == 1:
                 print('SUNK')
             else :
                 print('HIT')
 
             # Update boat cases left status for hit or sunk boat
-            BOAT_CASES[id][ID_BOAT.index(board[index])] -= 1
+            boat_cases[id][ID_BOAT.index(board[index])] -= 1
 
     # replace the index-th space with mark, leave everything else the same
     return ''.join([
@@ -263,7 +265,7 @@ def _update_board(board, space, state):
         for square, current in enumerate(board)
     ])
 
-def _place(board, space, boat_ID, direction, playerid):
+def _place(board, to_place, space, boat_ID, direction, playerid):
     '''
     board is the board of the player where the boat will be placed. 
     space corresponds to the space of the boat: int between 1 and 100. 
@@ -273,8 +275,8 @@ def _place(board, space, boat_ID, direction, playerid):
     playerid = 1 if player2 is placing their boat. 
     '''
 
-    if TO_PLACE[playerid][ID_BOAT.index(boat_ID)] == 0:
-        raise InvalidTransaction('Invalid Action: This boat has already been placed. {}'.format(TO_PLACE[playerid]))
+    if to_place[playerid][ID_BOAT.index(boat_ID)] == 0:
+        raise InvalidTransaction('Invalid Action: This boat has already been placed. {}'.format(to_place[playerid]))
 
     index = space - 1
     mark = boat_ID
@@ -308,7 +310,7 @@ def _place(board, space, boat_ID, direction, playerid):
         if k in path :
             raise InvalidTransaction('Invalid Action: Your boat is overlapping with another')
 
-    TO_PLACE[playerid][ID_BOAT.index(boat_ID)] -= 1
+    to_place[playerid][ID_BOAT.index(boat_ID)] -= 1
 
     # replace the i-th space with mark and all the cases that are in the specified direction
     return ''.join([
@@ -316,10 +318,10 @@ def _place(board, space, boat_ID, direction, playerid):
         for square, current in enumerate(board)
     ])
 
-def _update_game_state(game_state):
-    P1_wins = _is_win(0)
-    P2_wins = _is_win(1)
-    start_game = _boats_placed()
+def _update_game_state(game_state, to_place, boat_cases):
+    P1_wins = _is_win(0, boat_cases)
+    P2_wins = _is_win(1, boat_cases)
+    start_game = _boats_placed(to_place)
 
     if start_game:
         return 'P1-NEXT'
@@ -344,12 +346,12 @@ def _update_game_state(game_state):
 
     raise InternalError('Unhandled state: {}'.format(game_state))
 
-def _boats_placed():
+def _boats_placed(to_place):
     res1 = 0
     res2 = 0
-    for k in TO_PLACE[0] :
+    for k in to_place[0] :
         res1 += k
-    for k in TO_PLACE[1] :
+    for k in to_place[1] :
         res2 += k
     if res1 > 0 :
         print('Player1 has not finished placing boats')
@@ -359,8 +361,8 @@ def _boats_placed():
         return False
     return True
 
-def _is_win(id):
-    for k in BOAT_CASES[id]:
+def _is_win(id, boat_cases):
+    for k in boat_cases[id]:
         if k != 0:
             return False
     return True
