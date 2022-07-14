@@ -490,7 +490,7 @@ def do_list(args):
         print(fmt % ('GAME', 'PLAYER 1', 'PLAYER 2', 'STATE'))
         for game_data in game_list:
 
-            name, board_P1, board_P2, game_state, player1, player2 = game_data
+            name, board_P1, board_P2, game_state, player1, player2, boat_cases, to_place = game_data
 
             print(fmt % (name, player1[:6], player2[:6], game_state))
     else:
@@ -513,9 +513,9 @@ def do_show(args):
 
     if data is not None:
 
-        board_str_P1, board_str_P2, game_state, player1, player2 = {
-            name: (board_P1, board_P2, state, player_1, player_2)
-            for name, board_P1, board_P2, state, player_1, player_2 in [
+        board_str_P1, board_str_P2, game_state, player1, player2, boat_cases, to_place = {
+            name: (board_P1, board_P2, state, player_1, player_2, boat_cases, to_place)
+            for name, board_P1, board_P2, state, player_1, player_2, boat_cases, to_place in [
                 game.split(',')
                 for game in data.decode().split('|')
             ]
