@@ -307,7 +307,7 @@ def _place(board, space, state, boat_ID, direction, playerid):
     else :
         x = 1
         y = 0
-        if index + boat_length > 9:
+        if (index + boat_length) % 10 > 9:
             raise InvalidTransaction('Invalid Action: Your boat is outside the board on the right')
     
     # list of what is on the path of the new boat
