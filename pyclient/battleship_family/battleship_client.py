@@ -87,10 +87,12 @@ class BattleshipClient(object):
     # 2. Create a transaction and a batch
     # 2. Send to rest-api
 
-    def create(self, name, wait=None, auth_user=None, auth_password=None):
+    def create(self, name, player1, player2, wait=None, auth_user=None, auth_password=None):
         return self._send_battleship_txn(
             name,
             "create",
+            player1 = player1, 
+            player2  = player2, 
             wait=wait,
             auth_user=auth_user,
             auth_password=auth_password)
@@ -331,11 +333,13 @@ class BattleshipClient(object):
                      space="",
                      boat="", 
                      direction="", 
+                     player1="", 
+                     player2="", 
                      wait=None,
                      auth_user=None,
                      auth_password=None):
         # Serialization is just a delimited utf-8 encoded string
-        payload = ",".join([name, action, str(space), str(boat), str(direction)]).encode()
+        payload = ",".join([name, action, str(space), str(boat), str(direction), str(player1), str(player2)]).encode()
 
         # Construct the address where we'll store our state 
         address = self._get_address(name)

@@ -624,8 +624,9 @@ def do_create(args):
 
     if args.wait and args.wait > 0:
         response = client.create(
-            name, wait=args.wait,
+            name, 
             player1=P1, player2=P2, 
+            wait=args.wait, 
             auth_user=auth_user,
             auth_password=auth_password)
     else:
