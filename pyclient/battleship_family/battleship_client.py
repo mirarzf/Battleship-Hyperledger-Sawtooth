@@ -43,9 +43,9 @@ def _hash(data):
 
 
 class BattleshipClient(object):
-    '''Client simple wallet class.
+    '''Client battleship class.
 
-    This supports deposit, withdraw, transfer, and balance functions.
+    This supports create game, delete game, list existing games, shoot, place, show functions.
     '''
 
     def __init__(self, base_url, keyfile=None):
