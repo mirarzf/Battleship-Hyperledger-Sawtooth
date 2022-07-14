@@ -148,7 +148,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                         "Invalid action: this player doesn't exist")
                 else: 
                     raise InvalidTransaction(
-                        "Invalid action: this player doesn't exist")
+                        "Invalid action: this player {} doesn't exist".format(signer))
 
                 upd_board = _place(boardtoupdate,
                                     battleship_payload.space,
@@ -292,7 +292,7 @@ def _place(board, space, boat_ID, direction, playerid):
     index = space - 1
     mark = boat_ID
     boat_length = BOAT_CASES[playerid][ID_BOAT.index(boat_ID)]
-    
+
     # test if the boat will stay inside the board
     if direction == 'vertical':
         x = 0

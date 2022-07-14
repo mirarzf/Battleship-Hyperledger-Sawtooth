@@ -6,7 +6,7 @@ class BattleshipPayload:
     def __init__(self, payload):
         try:
             # The payload is csv utf-8 encoded string
-            name, action, space, boat, direction, player1, player2 = payload.decode().split(",")
+            name, action, space, boat, direction, player1, player2, currentplayer = payload.decode().split(",")
         except ValueError as e:
             raise InvalidTransaction("Invalid payload serialization") from e
 
@@ -40,6 +40,7 @@ class BattleshipPayload:
         self._direction = direction
         self._player1 = player1 
         self._player2 = player2 
+        self._currentplayer = currentplayer
 
     @staticmethod
     def from_bytes(payload):
@@ -72,3 +73,7 @@ class BattleshipPayload:
     @property
     def player2(self):
         return self._player2
+
+    @property
+    def currentplayer(self):
+        return self._currentplayer

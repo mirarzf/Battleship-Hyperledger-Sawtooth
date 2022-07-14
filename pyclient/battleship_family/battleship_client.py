@@ -335,11 +335,12 @@ class BattleshipClient(object):
                      direction="", 
                      player1="", 
                      player2="", 
+                     currentplayer="", 
                      wait=None,
                      auth_user=None,
                      auth_password=None):
         # Serialization is just a delimited utf-8 encoded string
-        payload = ",".join([name, action, str(space), str(boat), str(direction), str(player1), str(player2)]).encode()
+        payload = ",".join([name, action, str(space), str(boat), str(direction), str(player1), str(player2), str(currentplayer)]).encode()
 
         # Construct the address where we'll store our state 
         address = self._get_address(name)
