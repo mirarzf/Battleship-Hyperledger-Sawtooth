@@ -107,8 +107,8 @@ class BattleshipTransactionHandler(TransactionHandler):
                         state="PLACE",
                         player1=battleship_payload.player1,
                         player2=battleship_payload.player2,
-                        boat_cases=[[5, 4, 3, 3, 2],[5, 4, 3, 3, 2]],
-                        to_place=[[1, 1, 1, 1, 1], [1, 1, 1, 1, 1]])
+                        boat_cases=_game_boat_data_to_str([[5, 4, 3, 3, 2],[5, 4, 3, 3, 2]]),
+                        to_place=_game_boat_data_to_str([[1, 1, 1, 1, 1], [1, 1, 1, 1, 1]]))
 
             battleship_state.set_game(battleship_payload.name, game)
             _display("Player {} created a game.".format(signer[:6]))
@@ -366,6 +366,22 @@ def _is_win(id, boat_cases):
         if k != 0:
             return False
     return True
+
+def _game_boat_data_to_str(boat_table): 
+    out = ""
+    for i in range(2): 
+        for j in range(5): 
+            out += str(boat_table[i][j])
+    return out 
+
+def _game_boat_data_to_list(boat_str): 
+    out = []
+    for i in range(2): 
+        playeri = []
+        for j in range(5): 
+            playeri.append(int(boat_str(i*5+j)))
+        out.append(playeri)
+    return out 
 
 def _game_data_to_str(board, game_state, player1, player2, name):
     board = list(board.replace("-", " "))
