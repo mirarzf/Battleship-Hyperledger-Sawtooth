@@ -696,7 +696,8 @@ def do_place(args):
     row = args.row 
     boat = args.boat
     direction = args.direction
-    currentplayer = args.username 
+    currentplayer = args.username
+    print("I AM THE CURRENTPLAYER : hhhh", currentplayer)
 
     # Conversion of the COL ROW format to INT of the space 
     rownames = {

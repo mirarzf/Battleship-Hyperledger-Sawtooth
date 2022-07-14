@@ -133,6 +133,7 @@ class BattleshipTransactionHandler(TransactionHandler):
 
             if game.state == "PLACE":
                 currentplayer = battleship_payload.currentplayer
+                print("THIS IS THE CURRENT PLAYER IN TP: ", currentplayer)
                 if game.player1 == currentplayer: 
                     boardtoupdate = game.board_P1 
                     id = 0
