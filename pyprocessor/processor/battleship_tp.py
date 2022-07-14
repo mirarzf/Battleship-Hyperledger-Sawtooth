@@ -124,8 +124,6 @@ class BattleshipTransactionHandler(TransactionHandler):
         
         elif battleship_payload.action == 'place': 
             game = battleship_state.get_game(battleship_payload.name)
-            print("ACTION")
-
             if game is None:
                 raise InvalidTransaction(
                     'Invalid action: place requires an existing game')
@@ -134,13 +132,11 @@ class BattleshipTransactionHandler(TransactionHandler):
                 raise InvalidTransaction('Invalid Action : Game has already started, ships can no longer be placed')
 
             if game.state == "PLACE":
-                print("player1", game.player1)
-                print("palyer2", game.player2)
-                print("signer", signer)
-                if game.player1 == signer: 
+                currentplayer = battleship_payload.currentplayer
+                if game.player1 == currentplayer: 
                     boardtoupdate = game.board_P1 
                     id = 0
-                elif game.player2 == signer: 
+                elif game.player2 == currentplayer: 
                     boardtoupdate = game.board_P2 
                     id = 1
                 elif game.player1 == '' or game.player2 == '': 
@@ -213,12 +209,6 @@ class BattleshipTransactionHandler(TransactionHandler):
                             battleship_payload))
                 else :
                     print("HIT/SUNK/MISS")   #TBD add X to the board
-
-                if game.player1 == '':
-                    game.player1 = signer
-
-                elif game.player2 == '':
-                    game.player2 = signer
 
                 upd_board = _update_board(game.board_P1,
                                         battleship_payload.space,
