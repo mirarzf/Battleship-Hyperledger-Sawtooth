@@ -6,7 +6,7 @@ class BattleshipPayload:
     def __init__(self, payload):
         try:
             # The payload is csv utf-8 encoded string
-            name, action, space, boat, direction = payload.decode().split(",")
+            name, action, space, boat, direction, player1, player2 = payload.decode().split(",")
         except ValueError as e:
             raise InvalidTransaction("Invalid payload serialization") from e
 
@@ -19,10 +19,10 @@ class BattleshipPayload:
         if not action:
             raise InvalidTransaction('Action is required')
 
-        if action not in ('place', 'create', 'shoot', 'delete'):
+        if action not in ('list', 'create', 'show', 'place', 'shoot', 'delete'):
             raise InvalidTransaction('Invalid action: {}'.format(action))
 
-        if action == 'shoot':
+        if action == 'shoot' or action == 'place':
             space = int(space)
             try:
                 ## modified: case name for position as an index 
@@ -38,6 +38,8 @@ class BattleshipPayload:
         self._space = space
         self._boat = boat
         self._direction = direction
+        self._player1 = player1 
+        self._player2 = player2 
 
     @staticmethod
     def from_bytes(payload):
@@ -62,3 +64,11 @@ class BattleshipPayload:
     @property
     def direction(self):
         return self._direction
+
+    @property
+    def player1(self):
+        return self._player1
+
+    @property
+    def player2(self):
+        return self._player2
