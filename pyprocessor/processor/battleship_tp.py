@@ -275,46 +275,46 @@ def _place(board, space, boat_ID, direction, playerid):
 
     if TO_PLACE[playerid][ID_BOAT.index(boat_ID)] == 0:
         raise InvalidTransaction('Invalid Action: This boat has already been placed. {}'.format(TO_PLACE[playerid]))
+    else: 
+        index = space - 1
+        mark = boat_ID
+        boat_length = BOAT_CASES[playerid][ID_BOAT.index(boat_ID)]
 
-    index = space - 1
-    mark = boat_ID
-    boat_length = BOAT_CASES[playerid][ID_BOAT.index(boat_ID)]
+        # test if the boat will stay inside the board
+        if direction == 'vertical':
+            x = 0
+            y = 1
+            if index + boat_length*10 > 100 :
+                raise InvalidTransaction('Invalid Action: Your boat is outside the board on the bottom')
+        else :
+            x = 1
+            y = 0
+            if (index + boat_length) % 10 > 9:
+                raise InvalidTransaction('Invalid Action: Your boat is outside the board on the right')
+        
+        # list of what is on the path of the new boat
+        index_list = []
+        for k in range(boat_length):
+            index_list.append(index + k*x + k*y*10)
 
-    # test if the boat will stay inside the board
-    if direction == 'vertical':
-        x = 0
-        y = 1
-        if index + boat_length*10 > 100 :
-            raise InvalidTransaction('Invalid Action: Your boat is outside the board on the bottom')
-    else :
-        x = 1
-        y = 0
-        if (index + boat_length) % 10 > 9:
-            raise InvalidTransaction('Invalid Action: Your boat is outside the board on the right')
-    
-    # list of what is on the path of the new boat
-    index_list = []
-    for k in range(boat_length):
-        index_list.append(index + k*x + k*y*10)
+        path = []
+        for square, current in enumerate(board) :
+            for i in index_list :
+                if square == i :
+                    path.append(current)
+        
+        # check if boats don't overlapp
+        for k in ID_BOAT :
+            if k in path :
+                raise InvalidTransaction('Invalid Action: Your boat is overlapping with another')
 
-    path = []
-    for square, current in enumerate(board) :
-        for i in index_list :
-            if square == i :
-                path.append(current)
-    
-    # check if boats don't overlapp
-    for k in ID_BOAT :
-        if k in path :
-            raise InvalidTransaction('Invalid Action: Your boat is overlapping with another')
+        TO_PLACE[playerid][ID_BOAT.index(boat_ID)] -= 1
 
-    TO_PLACE[playerid][ID_BOAT.index(boat_ID)] -= 1
-
-    # replace the i-th space with mark and all the cases that are in the specified direction
-    return ''.join([
-        current if square not in index_list else mark
-        for square, current in enumerate(board)
-    ])
+        # replace the i-th space with mark and all the cases that are in the specified direction
+        return ''.join([
+            current if square not in index_list else mark
+            for square, current in enumerate(board)
+        ])
 
 def _update_game_state(game_state):
     P1_wins = _is_win(0)
