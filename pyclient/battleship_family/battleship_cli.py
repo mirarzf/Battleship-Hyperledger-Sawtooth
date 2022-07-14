@@ -402,6 +402,10 @@ def do_list(args):
 
 
 def do_show(args):
+    '''
+    This shows the boards of a game. When it is you turn, it displays your own board with where your enemy 
+    has shot and the enemy board (with no boats) whith the shots you made
+    '''
     name = args.name
 
     url = _get_url(args)
