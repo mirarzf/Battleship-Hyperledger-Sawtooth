@@ -197,6 +197,12 @@ def _update_board(board, row, col, state):
     ])
 
 def place(board, row, col, state, boat_ID, direction):
+    '''
+    col, row : col is an integer between 1 and 10, row is a character between A and J. 
+    Direction is either 'vertical' or 'horizontal'. 
+    boat_ID is the type of boat. 
+    '''
+    
     # Conversion of the COL ROW format to INT of the space 
     rownames = {
         "A": 0, 
@@ -216,6 +222,7 @@ def place(board, row, col, state, boat_ID, direction):
         id = 0
     space = rownames[row]*10 + col
     index = space - 1
+
     if state != 'PLACE':
         raise InvalidTransaction('Invalid Action: Game has started, all the ships have been placed')
     mark = boat_ID
@@ -265,6 +272,8 @@ def _update_game_state(game_state):
 
     if start_game:
         return 'P1-NEXT'
+    else: 
+        return 'PLACE'
 
     if P1_wins and P2_wins:
         raise InternalError('Two winners (there can be only one)')
