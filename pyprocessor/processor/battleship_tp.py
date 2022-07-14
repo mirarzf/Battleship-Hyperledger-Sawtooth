@@ -264,6 +264,8 @@ def _update_game_state(game_state):
 
     if start_game:
         return 'P1-NEXT'
+    else: 
+        return 'PLACE'
 
     if P1_wins and P2_wins:
         raise InternalError('Two winners (there can be only one)')
