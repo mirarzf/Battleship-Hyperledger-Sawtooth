@@ -513,9 +513,9 @@ def do_show(args):
 
     if data is not None:
 
-        board_str_P1, board_str_P2, game_state, player1, player2, boat_cases, to_place = {
-            name: (board_P1, board_P2, state, player_1, player_2, boat_cases, to_place)
-            for name, board_P1, board_P2, state, player_1, player_2, boat_cases, to_place in [
+        board_str_P1, board_str_P2, game_state, player1, player2 = {
+            name: (board_P1, board_P2, state, player_1, player_2)
+            for name, board_P1, board_P2, state, player_1, player_2 in [
                 game.split(',')
                 for game in data.decode().split('|')
             ]
