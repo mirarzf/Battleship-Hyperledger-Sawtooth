@@ -208,7 +208,7 @@ def correct_space_col (int):
 def add_shoot_parser(subparsers, parent_parser):
     parser = subparsers.add_parser(
         'shoot',
-        help='Shoots a space in an battleship game',
+        help='Shoots a space in a battleship game',
         description='Sends a transaction to shoot an enemy square in the '
         'battleship game with the identifier <name>. This transaction will fail if the '
         'specified game does not exist.',
@@ -232,14 +232,14 @@ def add_shoot_parser(subparsers, parent_parser):
     )
 
     parser.add_argument(
+        'username',
+        type=str,
+        help="identify name of user's private key file")
+
+    parser.add_argument(
         '--url',
         type=str,
         help='specify URL of REST API')
-
-    parser.add_argument(
-        '--username',
-        type=str,
-        help="identify name of user's private key file")
 
     parser.add_argument(
         '--key-dir',
@@ -264,6 +264,85 @@ def add_shoot_parser(subparsers, parent_parser):
         const=sys.maxsize,
         type=int,
         help='set time, in seconds, to wait for shoot transaction '
+        'to commit')
+        
+def add_place_parser(subparsers, parent_parser):
+    parser = subparsers.add_parser(
+        'place',
+        help='Places a boat on a space in a battleship game',
+        description='Sends a transaction to place a boat on your own board in the'
+        'battleship game with the identifier <name>. This transaction will fail if the '
+        'specified game does not exist.',
+        parents=[parent_parser])
+
+    parser.add_argument(
+        'name',
+        type=str,
+        help='identifier for the game')
+
+    parser.add_argument(
+        'row', 
+        type=correct_space_row, 
+        help='row of the square to place (A-J)'
+    )
+
+    parser.add_argument(
+        'col', 
+        type=correct_space_col, 
+        help='column of the square to place (1-10)'
+    )
+
+    parser.add_argument(
+        'direction', 
+        type=str, 
+        help='vertical or horizontal: goes to the right or'
+        'to the bottom from the stated case'
+    )
+
+    parser.add_argument(
+        'boat', 
+        type=str, 
+        help='boat type from V to Z \n'
+        'V: 5 cases \n'
+        'W: 4 cases \n'
+        'X: 3 cases \n'
+        'Y: 3 cases \n'
+        'Z: 2 cases \n'
+    )
+
+    parser.add_argument(
+        'username',
+        type=str,
+        help="identify name of user's private key file")
+
+    parser.add_argument(
+        '--url',
+        type=str,
+        help='specify URL of REST API')
+
+    parser.add_argument(
+        '--key-dir',
+        type=str,
+        help="identify directory of user's private key file")
+
+    parser.add_argument(
+        '--auth-user',
+        type=str,
+        help='specify username for authentication if REST API '
+        'is using Basic Auth')
+
+    parser.add_argument(
+        '--auth-password',
+        type=str,
+        help='specify password for authentication if REST API '
+        'is using Basic Auth')
+
+    parser.add_argument(
+        '--wait',
+        nargs='?',
+        const=sys.maxsize,
+        type=int,
+        help='set time, in seconds, to wait for place transaction '
         'to commit')
 
 
@@ -344,6 +423,7 @@ def create_parser(prog_name):
     add_list_parser(subparsers, parent_parser)
     add_show_parser(subparsers, parent_parser)
     add_shoot_parser(subparsers, parent_parser)
+    add_place_parser(subparsers, parent_parser)
     add_delete_parser(subparsers, parent_parser)
 
     return parser
@@ -581,6 +661,49 @@ def do_shoot(args):
 
     print("Response: {}".format(response))
 
+def do_place(args):
+    '''
+    Give the name of the game, the column and the row, this places a given boat at the given spot
+    '''
+    name = args.name
+    column = args.col
+    row = args.row 
+    boat = args.boat
+
+    # Conversion of the COL ROW format to INT of the space 
+    rownames = {
+        "A": 0, 
+        "B": 1, 
+        "C": 2, 
+        "D": 3, 
+        "E": 4, 
+        "F": 5, 
+        "G": 6, 
+        "H": 7, 
+        "I": 8, 
+        "J": 9, 
+    }
+    space = rownames[row]*10+column 
+
+    url = _get_url(args)
+    keyfile = _get_keyfile(args)
+    auth_user, auth_password = _get_auth_info(args)
+
+    client = BattleshipClient(base_url=url, keyfile=keyfile)
+
+    if args.wait and args.wait > 0:
+        response = client.shoot(
+            name, space, wait=args.wait,
+            auth_user=auth_user,
+            auth_password=auth_password)
+    else:
+        response = client.place(
+            name, space,
+            auth_user=auth_user,
+            auth_password=auth_password)
+
+    print("Response: {}".format(response))
+
 
 def do_delete(args):
     name = args.name
@@ -624,6 +747,8 @@ def main(prog_name=os.path.basename(sys.argv[0]), args=None):
         do_show(args)
     elif args.command == 'shoot':
         do_shoot(args)
+    elif args.command == 'place':
+        do_place(args)
     elif args.command == 'delete':
         do_delete(args)
     else:
