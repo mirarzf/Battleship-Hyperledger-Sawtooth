@@ -382,7 +382,7 @@ def _game_boat_data_to_list(boat_str):
     for i in range(2): 
         playeri = []
         for j in range(5): 
-            playeri.append(int(boat_str(i*5+j)))
+            playeri.append(int(boat_str[i*5+j]))
         out.append(playeri)
     return out 
 
