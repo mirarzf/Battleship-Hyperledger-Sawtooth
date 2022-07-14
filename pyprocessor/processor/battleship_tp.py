@@ -152,7 +152,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                 elif game.player2 == '':
                     game.player2 = signer
 
-def _update_board(board, col, row, state):
+def _update_board(board, row, col, state):
     # Conversion of the COL ROW format to INT of the space 
     rownames = {
         "A": 0, 
@@ -196,7 +196,7 @@ def _update_board(board, col, row, state):
         for square, current in enumerate(board)
     ])
 
-def place(board, col, row, state, boat_ID, direction):
+def place(board, row, col, state, boat_ID, direction):
     # Conversion of the COL ROW format to INT of the space 
     rownames = {
         "A": 0, 
@@ -218,6 +218,7 @@ def place(board, col, row, state, boat_ID, direction):
 
     boat_length = BOAT_CASES[id][ID_BOAT.index(board[index])]
 
+    # test if the boat will stay inside the board
     if direction == 'vertical':
         x = 0
         y = 1
@@ -229,6 +230,7 @@ def place(board, col, row, state, boat_ID, direction):
         if index + boat_length > 9:
             raise InvalidTransaction('Invalid Action: Your boat is outside the board on the right')
     
+    # list of what is on the path of the new boat
     index_list = []
     for k in range(boat_length):
         index_list.append(index + k*x + k*y*10)
@@ -240,6 +242,7 @@ def place(board, col, row, state, boat_ID, direction):
             if square == i :
                 path.append(current)
     
+    # check if boats don't overlapp
     for k in ID_BOAT :
         if k in path :
             raise InvalidTransaction('Invalid Action: Your boat is overlapping with another')
