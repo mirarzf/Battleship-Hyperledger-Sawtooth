@@ -210,13 +210,17 @@ def place(board, row, col, state, boat_ID, direction):
         "I": 8, 
         "J": 9, 
     }
+    if state == 'P1-NEXT' :
+        id = 1
+    else :
+        id = 0
     space = rownames[row]*10 + col
     index = space - 1
     if state != 'PLACE':
         raise InvalidTransaction('Invalid Action: Game has started, all the ships have been placed')
     mark = boat_ID
 
-    boat_length = BOAT_CASES[id][ID_BOAT.index(board[index])]
+    boat_length = BOAT_CASES[id][ID_BOAT.index(boat_ID)]
 
     # test if the boat will stay inside the board
     if direction == 'vertical':
@@ -247,6 +251,7 @@ def place(board, row, col, state, boat_ID, direction):
         if k in path :
             raise InvalidTransaction('Invalid Action: Your boat is overlapping with another')
 
+    TO_PLACE[id][ID_BOAT.index(boat_ID)] -= 1
     # replace the i-th space with mark and all the cases that are in the specified direction
     return ''.join([
         current if square not in index_list else mark
