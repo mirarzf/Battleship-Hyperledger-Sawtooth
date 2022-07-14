@@ -162,6 +162,8 @@ class BattleshipTransactionHandler(TransactionHandler):
                 game.to_place = _game_boat_data_to_str(to_place_list)
                 game.state = upd_game_state
 
+            battleship_state.set_game(battleship_payload.name, game)
+
         elif battleship_payload.action == 'shoot':
             game = battleship_state.get_game(battleship_payload.name)
 
@@ -223,8 +225,8 @@ class BattleshipTransactionHandler(TransactionHandler):
                 game.boat_cases = _game_boat_data_to_str(boat_cases_list)
                 game.state = upd_game_state
 
-
             battleship_state.set_game(battleship_payload.name, game)
+
             _display(
                 "Player {} attacks space: {}\n\n".format(
                     signer[:6],
