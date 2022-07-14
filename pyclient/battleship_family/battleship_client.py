@@ -119,9 +119,9 @@ class BattleshipClient(object):
             name,
             "place",
             space,
-            boat, 
-            direction, 
-            currentplayer, 
+            boat=boat, 
+            direction=direction, 
+            currentplayer=currentplayer, 
             wait=wait,
             auth_user=auth_user,
             auth_password=auth_password)
