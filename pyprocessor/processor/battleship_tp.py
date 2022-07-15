@@ -201,8 +201,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                                         game.state)
 
                 upd_game_state = _update_game_state(game.state, _game_boat_data_to_list(game.to_place), boat_cases_list)
-                _display("Previous game state is : {} and future game state is {}".format(game.state, upd_game_state))
-
+                
                 game.board_P2 = upd_board
                 game.boat_cases = _game_boat_data_to_str(boat_cases_list)
                 game.state = upd_game_state
@@ -236,8 +235,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                                         game.state)
 
                 upd_game_state = _update_game_state(game.state, _game_boat_data_to_list(game.to_place), boat_cases_list)
-                _display("Previous game state is : {} and future game state is {}".format(game.state, upd_game_state))
-
+                
                 game.board_P1 = upd_board
                 game.boat_cases = _game_boat_data_to_str(boat_cases_list)
                 game.state = upd_game_state
@@ -359,25 +357,27 @@ def _update_game_state(game_state, to_place, boat_cases):
     P2_wins = _is_win(1, boat_cases)
     start_game = _boats_placed(to_place)
 
-    if start_game:
+    _display("Please tell me what game_state we're at : {}" .format(game_state))
+
+    if start_game and game_state == 'PLACE':
         return 'P1-NEXT'
 
-    elif P1_wins and P2_wins:
+    if P1_wins and P2_wins:
         raise InternalError('Two winners (there can be only one)')
 
-    elif P1_wins:
+    if P1_wins:
         return 'P1-WIN'
 
-    elif P2_wins:
+    if P2_wins:
         return 'P2-WIN'
 
-    elif game_state == 'P1-NEXT':
+    if game_state == 'P1-NEXT':
         return 'P2-NEXT'
 
-    elif game_state == 'P2-NEXT':
+    if game_state == 'P2-NEXT':
         return 'P1-NEXT'
     
-    elif game_state in ('P1-WINS', 'P2-WINS', 'PLACE'):
+    if game_state in ('P1-WINS', 'P2-WINS', 'PLACE'):
         return game_state
 
     raise InternalError('Unhandled state: {}'.format(game_state))
