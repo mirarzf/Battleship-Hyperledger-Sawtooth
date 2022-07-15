@@ -147,11 +147,11 @@ class BattleshipTransactionHandler(TransactionHandler):
                         "'{}' and '{}' do though.".format(currentplayer, game.player1, game.player2))
 
                 upd_board, to_place_list = _place(boardtoupdate, 
-                                    _game_boat_data_to_list(game.to_place),
-                                    battleship_payload.space,
-                                    battleship_payload.boat, 
-                                    battleship_payload.direction, 
-                                    id)
+                                                _game_boat_data_to_list(game.to_place),
+                                                battleship_payload.space,
+                                                battleship_payload.boat, 
+                                                battleship_payload.direction, 
+                                                id)
 
                 upd_game_state = _update_game_state(game.state, to_place_list, _game_boat_data_to_list(game.boat_cases))
 
@@ -205,6 +205,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                 game.board_P2 = upd_board
                 game.boat_cases = _game_boat_data_to_str(boat_cases_list)
                 game.state = upd_game_state
+                _display("Player {} attacks space: {}\n\n".format(signer[:6], battleship_payload.space) 
 
                 # battleship_state.set_game(battleship_payload.name, game)
 
@@ -238,9 +239,12 @@ class BattleshipTransactionHandler(TransactionHandler):
                 game.board_P1 = upd_board
                 game.boat_cases = _game_boat_data_to_str(boat_cases_list)
                 game.state = upd_game_state
+                _display("Player {} attacks space: {}\n\n".format(signer[:6], battleship_payload.space) 
+
 
             battleship_state.set_game(battleship_payload.name, game)
-
+            
+            
                 # _display(
                 #     "Player {} attacks space: {}\n\n".format(
                 #         signer[:6],
