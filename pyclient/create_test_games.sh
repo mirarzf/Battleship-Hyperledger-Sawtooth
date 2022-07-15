@@ -5,7 +5,7 @@ sawtooth keygen jill
 sawtooth keygen jack 
 
 # Create placing test game 
-battleship create placing jill jack 
+battleship create placing jack jill
 
 battleship place placing A 6 horizontal L jill 
 battleship place placing B 6 vertical M jill 
@@ -27,7 +27,7 @@ battleship place placing G 3 horizontal Q jack
 #####################################################################
 
 # Create winning test game 
-battleship create shooting jill jack 
+battleship create shooting jack jill
 
 battleship place shooting A 6 horizontal L jill 
 battleship place shooting B 6 vertical M jill 
