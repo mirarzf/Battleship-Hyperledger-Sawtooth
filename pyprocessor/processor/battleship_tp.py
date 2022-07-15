@@ -371,7 +371,7 @@ def _update_game_state(game_state, to_place, boat_cases):
     elif game_state == 'P2-NEXT':
         return 'P1-NEXT'
     
-    elif game_state == 'PLACE': # or game_state == 'P1-WIN' or game_state == 'P2-WIN': 
+    elif game_state in ('P1-WINS', 'P2-WINS', 'PLACE'):
         return game_state
 
     raise InternalError('Unhandled state: {}'.format(game_state))
