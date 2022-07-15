@@ -219,7 +219,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                         game.player2,
                         battleship_payload.name))
 
-            if game.state == "P2-NEXT":
+            elif game.state == "P2-NEXT":
 
                 if game.board_P1[battleship_payload.space - 1] == 'X' or game.board_P1[battleship_payload.space - 1] == 'O':
                     raise InvalidTransaction(
@@ -314,12 +314,12 @@ def _place(board, to_place, space, boat_ID, direction, playerid):
     if direction == 'vertical':
         x = 0
         y = 1
-        if index + boat_length*10 > 100 :
+        if index + (boat_length-1)*10 > 100 :
             raise InvalidTransaction('Invalid Action: Your boat is outside the board on the bottom')
     else :
         x = 1
         y = 0
-        if (index + boat_length) % 10 > 9:
+        if (index%10) + (boat_length-1) > 9:
             raise InvalidTransaction('Invalid Action: Your boat is outside the board on the right')
     
     # list of what is on the path of the new boat
@@ -327,13 +327,13 @@ def _place(board, to_place, space, boat_ID, direction, playerid):
     for k in range(boat_length):
         index_list.append(index + k*x + k*y*10)
 
+    # check if boats don't overlapp
     path = []
     for square, current in enumerate(board) :
         for i in index_list :
             if square == i :
                 path.append(current)
     
-    # check if boats don't overlapp
     for k in ID_BOAT :
         if k in path :
             raise InvalidTransaction('Invalid Action: Your boat is overlapping with another')
@@ -366,12 +366,14 @@ def _update_game_state(game_state, to_place, boat_cases):
         return 'P2-WIN'
 
     elif game_state == 'P1-NEXT':
+        LOGGER.debug("YOYOYO ON PASSE A P2")
         return 'P2-NEXT'
 
     elif game_state == 'P2-NEXT':
         return 'P1-NEXT'
     
     else: 
+        LOGGER.debug("YOYOYO ON BOUGE PAS")
         return game_state
 
     raise InternalError('Unhandled state: {}'.format(game_state))
