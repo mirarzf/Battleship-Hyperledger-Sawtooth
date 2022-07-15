@@ -258,7 +258,6 @@ class BattleshipTransactionHandler(TransactionHandler):
 
 def _update_board(board, boat_cases, space, state):
     index = space - 1
-    mark = ''
 
     if state == 'PLACE' :
         mark = board[index]
@@ -267,12 +266,14 @@ def _update_board(board, boat_cases, space, state):
         if board[index] == '-':
             print('MISS')
             mark = 'X'
+
         elif board[index] in ID_BOAT:
             mark = 'O'
             if state == 'P1-NEXT' :
                 id = 1
             else :
                 id = 0
+
             if boat_cases[id][ID_BOAT.index(board[index])] == 1:
                 print('SUNK')
             else :
@@ -280,6 +281,9 @@ def _update_board(board, boat_cases, space, state):
 
             # Update boat cases left status for hit or sunk boat
             boat_cases[id][ID_BOAT.index(board[index])] -= 1
+
+        else: 
+            mark = board[index]
 
     # replace the index-th space with mark, leave everything else the same
     updated_board = ''.join([
