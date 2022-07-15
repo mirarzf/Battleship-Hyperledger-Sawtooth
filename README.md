@@ -76,16 +76,17 @@ battleship show <namegame> <nameP1 or nameP2>
 
 #### Start shooting
 
-Now, the game can begin.
+Now, the game can begin. You will each play a turn one after the other.
 The first player will start to shoot. Choose a position you want to shoot
+
 ```
 battleship shoot <namegame> <row> <column> <nameplayer>
 ```
 
 When you shoot there are several possibilities : 
-- You miss : Too bad, the position you shot had no boats. Better luck next time ! Your turn ends here, and the other player starts shooting your boat.
-- You hit your opponent's boat : Good job, a boat was placed at this position, you hit it! This place will be marked as "X". You can keep playing until  you miss 
-- You sink your oppoonent's boat : Congratulations, you hit the last position of a boat, it is sunk, the whole boat becomes marked as "O". Keep playing until you miss
+- You miss : Too bad, the position you shot had no boats. Better luck next time ! Your turn ends here, and the other player starts shooting your boat. This place will be marked as "X"
+- You hit your opponent's boat : Good job, a boat was placed at this position, you hit it! This place will be marked as "O". 
+- You sink your oppoonent's boat : Congratulations, you hit the last position of a boat, it is sunk, the whole boat becomes marked as "O".
 
 #### End of the game
 Keep shooting your opponent's board and try to be the first to sink all the boards !
