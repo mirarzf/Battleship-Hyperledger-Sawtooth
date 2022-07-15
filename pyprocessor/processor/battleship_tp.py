@@ -201,11 +201,12 @@ class BattleshipTransactionHandler(TransactionHandler):
                                         game.state)
 
                 upd_game_state = _update_game_state(game.state, _game_boat_data_to_list(game.to_place), boat_cases_list)
+                _display("Previous game state is : {} and future game state is {}".format(game.state, upd_game_state))
 
                 game.board_P2 = upd_board
                 game.boat_cases = _game_boat_data_to_str(boat_cases_list)
                 game.state = upd_game_state
-                _display("Player {} attacks space: {}\n\n".format(signer[:6], battleship_payload.space)) 
+                _display("Player {} attacks space: {}\n\n".format(currentplayer[:6], battleship_payload.space)) 
 
                 # battleship_state.set_game(battleship_payload.name, game)
 
@@ -235,11 +236,12 @@ class BattleshipTransactionHandler(TransactionHandler):
                                         game.state)
 
                 upd_game_state = _update_game_state(game.state, _game_boat_data_to_list(game.to_place), boat_cases_list)
+                _display("Previous game state is : {} and future game state is {}".format(game.state, upd_game_state))
 
                 game.board_P1 = upd_board
                 game.boat_cases = _game_boat_data_to_str(boat_cases_list)
                 game.state = upd_game_state
-                _display("Player {} attacks space: {}\n\n".format(signer[:6], battleship_payload.space)) 
+                _display("Player {} attacks space: {}\n\n".format(currentplayer[:6], battleship_payload.space)) 
 
 
             battleship_state.set_game(battleship_payload.name, game)
