@@ -357,8 +357,6 @@ def _update_game_state(game_state, to_place, boat_cases):
     P2_wins = _is_win(1, boat_cases)
     start_game = _boats_placed(to_place)
 
-    _display("Please tell me what game_state we're at : {}" .format(game_state))
-
     if start_game and game_state == 'PLACE':
         return 'P1-NEXT'
 
@@ -398,7 +396,12 @@ def _boats_placed(to_place):
     return True
 
 def _is_win(id, boat_cases):
-    for k in boat_cases[id]:
+    '''
+    INPUT: - id is the player id. 0 is for player 1 and 1 is for player 2. 
+           - boat_cases is the game list of boat cases. 
+    OUTPUT: if the player 1 wins. 
+    '''
+    for k in boat_cases[1-id]:
         if k != 0:
             return False
     return True
