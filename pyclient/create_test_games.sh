@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Create games automatically 
 sawtooth keygen jill
 sawtooth keygen jack 
@@ -65,3 +66,5 @@ battleship shoot shooting I 8 jack
 # Show the list and the shooting game 
 # Shoot the last boat jill so jack wins 
 # Show the list again to show the state has changed to 'P1-WINS'
+
+echo All demo games have been created! 
