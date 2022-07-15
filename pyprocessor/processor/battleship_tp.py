@@ -220,7 +220,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                 #         game.player2,
                 #         battleship_payload.name))
 
-            if game.state == "P2-NEXT":
+            elif game.state == "P2-NEXT":
 
                 if game.board_P1[battleship_payload.space - 1] == 'X' or game.board_P1[battleship_payload.space - 1] == 'O':
                     raise InvalidTransaction(
