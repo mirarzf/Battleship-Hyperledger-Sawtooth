@@ -19,7 +19,7 @@ If you add changes to the python code, don't forget to rebuild the containers. I
 
 Then, to open the client just do the following command: 
 ```
-docker exec -it battleship-client bash
+sudo docker exec -it battleship-client bash
 ```
 
 ## Battleship commands 
