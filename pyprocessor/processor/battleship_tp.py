@@ -207,18 +207,6 @@ class BattleshipTransactionHandler(TransactionHandler):
                 game.state = upd_game_state
                 _display("Player {} attacks space: {}\n\n".format(currentplayer[:6], battleship_payload.space)) 
 
-                # battleship_state.set_game(battleship_payload.name, game)
-
-                # _display(
-                #     "Player {} attacks space: {}\n\n".format(
-                #         signer[:6],
-                #         battleship_payload.space)
-                #     + _game_data_to_str(
-                #         _display_enemy(game.board_P2),
-                #         game.state,
-                #         game.player1,
-                #         game.player2,
-                #         battleship_payload.name))
 
             elif game.state == "P2-NEXT":
 
@@ -244,18 +232,6 @@ class BattleshipTransactionHandler(TransactionHandler):
 
             battleship_state.set_game(battleship_payload.name, game)
             
-            
-                # _display(
-                #     "Player {} attacks space: {}\n\n".format(
-                #         signer[:6],
-                #         battleship_payload.space)
-                #     + _game_data_to_str(
-                #         _display_enemy(game.board_P1),
-                #         game.state,
-                #         game.player1,
-                #         game.player2,
-                #         battleship_payload.name))
-
         else:
             raise InvalidTransaction('Unhandled action: {}'.format(
                 battleship_payload.action))
