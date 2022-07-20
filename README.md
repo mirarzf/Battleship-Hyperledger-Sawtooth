@@ -1,7 +1,7 @@
 # Battleship-Hyperledger-Sawtooth
 Battleship application using Hyperledger Sawtooth. 
 Created for the Advanced Courses on Database Systems of KU in 2022. 
-This repository is based upon the python processor and client of the simplewallet repository: https://github.com/askmish/sawtooth-simplewallet 
+This repository is based upon the python processor and client of the simplewallet repository: https://github.com/askmish/sawtooth-simplewallet and on the Python SDK repository of Hyperledger Sawtooth: https://github.com/hyperledger/sawtooth-sdk-python
 
 ***
 
