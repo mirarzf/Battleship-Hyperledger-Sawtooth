@@ -725,7 +725,8 @@ def do_shoot(args):
         if k in ID_BOAT: # A boat has been shot 
             boat_cases = _game_boat_data_to_list(boat_cases)
             if sum(boat_cases[enemyID]) == 1: # The shot space corresponds to the last boat case of the opponent
-                print("SUNK \n You won! ")
+                print("SUNK\n"
+                      "You won! ")
             elif boat_cases[enemyID][ID_BOAT.index(k)] == 1: # The shot space corresponds to the last case of the boat k 
                 print("SUNK")
             else: # The boat k has still other cases left before sinking 
