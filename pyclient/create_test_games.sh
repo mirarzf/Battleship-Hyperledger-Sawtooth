@@ -78,7 +78,7 @@ battleship shoot shooting B 6 jill
 
 battleship shoot shooting J 8 jack
 battleship shoot shooting B 7 jill 
-battleship shoot shooting J 9 jack
+# battleship shoot shooting J 9 jack
 # FOR THE DEMO: 
 # Show the list and the shooting game 
 # Shoot the last boat jill so jack wins 

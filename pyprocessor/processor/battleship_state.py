@@ -21,7 +21,7 @@ class Game:
         self.player2 = player2
         self.boat_cases = boat_cases
         self.to_place = to_place
-
+        
 
 class BattleshipState:
 

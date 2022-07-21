@@ -192,8 +192,6 @@ class BattleshipTransactionHandler(TransactionHandler):
                     raise InvalidTransaction(
                         'Invalid Action: space {} already attacked'.format(
                             battleship_payload))
-                else :
-                    print("HIT, SUNK or MISS ?")
 
                 upd_board, boat_cases_list = _update_board(game.board_P2, 
                                         _game_boat_data_to_list(game.boat_cases),
@@ -207,18 +205,6 @@ class BattleshipTransactionHandler(TransactionHandler):
                 game.state = upd_game_state
                 _display("Player {} attacks space: {}\n\n".format(currentplayer[:6], battleship_payload.space)) 
 
-                # battleship_state.set_game(battleship_payload.name, game)
-
-                # _display(
-                #     "Player {} attacks space: {}\n\n".format(
-                #         signer[:6],
-                #         battleship_payload.space)
-                #     + _game_data_to_str(
-                #         _display_enemy(game.board_P2),
-                #         game.state,
-                #         game.player1,
-                #         game.player2,
-                #         battleship_payload.name))
 
             elif game.state == "P2-NEXT":
 
@@ -226,9 +212,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                     raise InvalidTransaction(
                         'Invalid Action: space {} already attacked'.format(
                             battleship_payload))
-                else :
-                    print("HIT/SUNK/MISS")
-
+                
                 upd_board, boat_cases_list = _update_board(game.board_P1, 
                                         _game_boat_data_to_list(game.boat_cases),
                                         battleship_payload.space,
@@ -241,21 +225,8 @@ class BattleshipTransactionHandler(TransactionHandler):
                 game.state = upd_game_state
                 _display("Player {} attacks space: {}\n\n".format(currentplayer[:6], battleship_payload.space)) 
 
-
             battleship_state.set_game(battleship_payload.name, game)
             
-            
-                # _display(
-                #     "Player {} attacks space: {}\n\n".format(
-                #         signer[:6],
-                #         battleship_payload.space)
-                #     + _game_data_to_str(
-                #         _display_enemy(game.board_P1),
-                #         game.state,
-                #         game.player1,
-                #         game.player2,
-                #         battleship_payload.name))
-
         else:
             raise InvalidTransaction('Unhandled action: {}'.format(
                 battleship_payload.action))
