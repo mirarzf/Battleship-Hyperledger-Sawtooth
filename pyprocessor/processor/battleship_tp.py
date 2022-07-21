@@ -192,8 +192,6 @@ class BattleshipTransactionHandler(TransactionHandler):
                     raise InvalidTransaction(
                         'Invalid Action: space {} already attacked'.format(
                             battleship_payload))
-                else :
-                    print("HIT, SUNK or MISS ?")
 
                 upd_board, boat_cases_list = _update_board(game.board_P2, 
                                         _game_boat_data_to_list(game.boat_cases),
@@ -214,9 +212,7 @@ class BattleshipTransactionHandler(TransactionHandler):
                     raise InvalidTransaction(
                         'Invalid Action: space {} already attacked'.format(
                             battleship_payload))
-                else :
-                    print("HIT/SUNK/MISS")
-
+                
                 upd_board, boat_cases_list = _update_board(game.board_P1, 
                                         _game_boat_data_to_list(game.boat_cases),
                                         battleship_payload.space,
@@ -228,7 +224,6 @@ class BattleshipTransactionHandler(TransactionHandler):
                 game.boat_cases = _game_boat_data_to_str(boat_cases_list)
                 game.state = upd_game_state
                 _display("Player {} attacks space: {}\n\n".format(currentplayer[:6], battleship_payload.space)) 
-
 
             battleship_state.set_game(battleship_payload.name, game)
             

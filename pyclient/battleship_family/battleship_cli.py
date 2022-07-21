@@ -695,6 +695,48 @@ def do_shoot(args):
 
     print("Response: {}".format(response))
 
+    # Get the boat cases number before the shoot update to show the right message to the player 
+    data = client.show(name, auth_user=auth_user, auth_password=auth_password)
+
+    if data is not None:
+
+        board_str_P1, board_str_P2, game_state, player1, player2, boat_cases, to_place = {
+            name: (board_P1, board_P2, state, player_1, player_2, boat_cases, to_place)
+            for name, board_P1, board_P2, state, player_1, player_2, boat_cases, to_place in [
+                game.split(',')
+                for game in data.decode().split('|')
+            ]
+        }[name]
+        
+        board_P1 = list(board_str_P1.replace("-", " "))
+        board_P2 = list(board_str_P2.replace("-", " "))
+        
+        if currentplayer == player1: 
+            board_enemy = board_P2
+            enemyID = 1 
+        elif currentplayer == player2: 
+            board_enemy = board_P1
+            enemyID = 0
+        else: 
+            raise Exception("Player {} doesn't exist in the game {}".format(currentplayer, name))
+        
+        k = board_enemy[space-1] # Get the mark of board enemy 
+        print("HIT/MISS/SUNK ?")
+        if k in ID_BOAT: # A boat has been shot 
+            boat_cases = _game_boat_data_to_list(boat_cases)
+            print("bc", boat_cases) 
+            if boat_cases[enemyID][ID_BOAT.index(k)] == 1: # The shot space corresponds to the last case of the boat k 
+                print("SUNK")
+            else: # The boat k has still other cases left before sinking 
+                print("HIT")
+        else: # A boat has not been shot 
+            print("MISS")
+
+            
+        
+
+
+
 def do_place(args):
     '''
     Give the name of the game, the column and the row, this places a given boat at the given spot
@@ -770,6 +812,14 @@ def do_delete(args):
 
     print("Response: {}".format(response))
 
+def _game_boat_data_to_list(boat_str): 
+    out = []
+    for i in range(2): 
+        playeri = []
+        for j in range(5): 
+            playeri.append(int(boat_str[i*5+j]))
+        out.append(playeri)
+    return out 
 
 def main(prog_name=os.path.basename(sys.argv[0]), args=None):
     '''Entry point function for the client CLI.'''
