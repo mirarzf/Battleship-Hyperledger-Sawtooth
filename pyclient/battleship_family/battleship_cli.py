@@ -721,10 +721,9 @@ def do_shoot(args):
             raise Exception("Player {} doesn't exist in the game {}".format(currentplayer, name))
         
         k = board_enemy[space-1] # Get the mark of board enemy 
-        print("HIT/MISS/SUNK ?")
+        print("HIT/MISS/SUNK?")
         if k in ID_BOAT: # A boat has been shot 
             boat_cases = _game_boat_data_to_list(boat_cases)
-            print("bc", boat_cases) 
             if boat_cases[enemyID][ID_BOAT.index(k)] == 1: # The shot space corresponds to the last case of the boat k 
                 print("SUNK")
             else: # The boat k has still other cases left before sinking 
